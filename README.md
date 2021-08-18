@@ -25,10 +25,13 @@ The final members table captures the join_date when a customer_id joined the bet
 
 ![image](https://user-images.githubusercontent.com/74512335/129873255-d73f810e-296b-4d51-aff9-5e4424769d0e.png)
 
-# Case Study Questions
+# Case Study Questions & Solutions
 1. What is the total amount each customer spent at the restaurant?
 
 2. How many days has each customer visited the restaurant?
+
+ ![image](https://user-images.githubusercontent.com/74512335/129976292-915675f8-75e5-4c8e-aced-179dbaed52c6.png)
+
 
 3. What was the first item from the menu purchased by each customer?
 
@@ -45,3 +48,4 @@ The final members table captures the join_date when a customer_id joined the bet
 9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 
 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+
