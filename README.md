@@ -34,6 +34,8 @@ LEFT JOIN was conducted to marry up the sales amounts for each menu item. GROUP 
 
 **2. How many days has each customer visited the restaurant?**
 
+COUNT DISTINCT was needed in order to filter out duplicates and just get the days each customer visited the restaurant.
+
  ![image](https://user-images.githubusercontent.com/74512335/129976292-915675f8-75e5-4c8e-aced-179dbaed52c6.png)
 
 
