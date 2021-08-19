@@ -26,9 +26,13 @@ The final members table captures the join_date when a customer_id joined the bet
 ![image](https://user-images.githubusercontent.com/74512335/129873255-d73f810e-296b-4d51-aff9-5e4424769d0e.png)
 
 # Case Study Questions & Solutions
-1. What is the total amount each customer spent at the restaurant?
+**1. What is the total amount each customer spent at the restaurant?**
 
-2. How many days has each customer visited the restaurant?
+LEFT JOIN was conducted to marry up the sales amounts for each menu item. GROUP BY used to show what each customer purchased & how much.
+
+![image](https://user-images.githubusercontent.com/74512335/130072193-b736b614-f2ff-4552-82d4-3d02cc43be2b.png)
+
+**2. How many days has each customer visited the restaurant?**
 
  ![image](https://user-images.githubusercontent.com/74512335/129976292-915675f8-75e5-4c8e-aced-179dbaed52c6.png)
 
