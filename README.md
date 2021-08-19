@@ -1,6 +1,9 @@
 # Case-Study-1 Danny's Diner
 1st Case Study from Danny Ma's Serious SQL Course
 
+![image](https://user-images.githubusercontent.com/74512335/130088045-01bbd3aa-7619-437e-bcb8-cf19e95ccfba.png)
+
+
 ## **Example Datasets**
 
 Danny has shared 3 key datasets for this case study: **Sales | Menu | Members**
