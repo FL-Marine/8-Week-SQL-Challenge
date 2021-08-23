@@ -41,8 +41,11 @@ COUNT DISTINCT was needed in order to filter out duplicates and just get the day
 
  ![image](https://user-images.githubusercontent.com/74512335/129976292-915675f8-75e5-4c8e-aced-179dbaed52c6.png)
 
+**3. What was the first item from the menu purchased by each customer?**
 
-3. What was the first item from the menu purchased by each customer?
+Query result from order_date just gives dates, determining what was the first menu item purchase by the customer is not possible. Filtering to product_id gives a better idea of what the first purchase for the customer could be.
+
+![image](https://user-images.githubusercontent.com/74512335/130518858-95b83715-243a-4268-8673-72baf9f23e1a.png)
 
 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
 
