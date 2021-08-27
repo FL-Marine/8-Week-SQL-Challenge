@@ -3,7 +3,6 @@
 
 ![image](https://user-images.githubusercontent.com/74512335/130088045-01bbd3aa-7619-437e-bcb8-cf19e95ccfba.png)
 
-
 ## **Example Datasets**
 
 Danny has shared 3 key datasets for this case study: **Sales | Menu | Members**
@@ -47,17 +46,35 @@ Query result from order_date just gives dates, determining what was the first me
 
 ![image](https://user-images.githubusercontent.com/74512335/130518858-95b83715-243a-4268-8673-72baf9f23e1a.png)
 
-4. What is the most purchased item on the menu and how many times was it purchased by all customers?
+**4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
 
-5. Which item was the most popular for each customer?
+Most purchased item is ramen.
 
-6. Which item was purchased first by the customer after they became a member?
+![image](https://user-images.githubusercontent.com/74512335/131182021-b8ae95c5-ff7e-4fdc-b300-7870acd0938f.png)
 
-7. Which item was purchased just before the customer became a member?
+**5. Which item was the most popular for each customer?**
 
-8. What is the total items and amount spent for each member before they became a member?
+Two ctes were used to better split up queries by order count and popularity. 
 
-9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+Customers Favorite Food:
 
-10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+Customer A - Ramen
+
+Customer B - 3 way time
+
+Customer C - Ramen
+
+![image](https://user-images.githubusercontent.com/74512335/131188041-7b1b7901-22bf-4ade-a2f9-80bd6a7191cc.png)
+
+**6. Which item was purchased first by the customer after they became a member?**
+
+
+
+**7. Which item was purchased just before the customer became a member?**
+
+**8. What is the total items and amount spent for each member before they became a member?**
+
+**9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
+
+**10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
 
