@@ -97,4 +97,3 @@ SUM with CASE WHEN clauses were used to only identify the menu item 'sushi' then
 Needed to look at 2 different dates the initial join date and a week later. To get 7 days past the join_date a + 7 was used after the AND clause. A second WHEN clause was used to clarify that the 2x points was only earned during that time period betwwen join_date and a week later. To ensure points we're only searching for points counted in January a WHERE order_date with a <= less then or equal sign.
 
 ![image](https://user-images.githubusercontent.com/74512335/131232968-dfc86c5e-3db2-49a5-bf15-e49e444d9ae6.png)
-
