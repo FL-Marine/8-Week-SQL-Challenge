@@ -87,5 +87,10 @@ Used DISTINCT because the question states **unique menu items**. This translates
 
 **9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
 
+SUM with CASE WHEN clauses were used to only identify the menu item 'sushi' then multiply only sushi by x2 points every other item does not fit this criteria. This is similar to a IF ELSE statement seen in other tools.
+
+![image](https://user-images.githubusercontent.com/74512335/131232505-b8c9bb2b-8ef7-48f2-ba20-639602c9a9fa.png)
+
+
 **10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
 
