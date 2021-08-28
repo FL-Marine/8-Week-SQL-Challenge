@@ -83,8 +83,7 @@ Basically the same query as above but >= (Greater Than or Equal To) is changed <
 
 Used DISTINCT because the question states **unique menu items**. This translates to how many items did the customer buy each item for the first time prior to membership including amount spent.
 
-![image](https://user-images.githubusercontent.com/74512335/131222635-7263e95b-8e44-4552-92b1-3c93357d70ad.png)
-
+![image](https://user-images.githubusercontent.com/74512335/131228453-2133e04d-98bc-43ed-a5cc-419b748846cd.png)
 
 **9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
 
