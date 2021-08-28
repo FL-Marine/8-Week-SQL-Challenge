@@ -68,11 +68,23 @@ Customer C - Ramen
 
 **6. Which item was purchased first by the customer after they became a member?**
 
+RANKED () was used in the window function to assign each row within the partition. Rows of exact value will receive the same rank, this query shows which item was first purchase by customers when they became members.
+
+![image](https://user-images.githubusercontent.com/74512335/131219625-5f4147b9-956e-41fb-96e8-be12d148daa8.png)
 
 
 **7. Which item was purchased just before the customer became a member?**
 
-**8. What is the total items and amount spent for each member before they became a member?**
+Basically the same query as above but >= (Greater Than or Equal To) is changed < (Less Than) to show what items customers purchased before becoming a member. Customer A purchased  2 items sushi and curry before they became a members vs customer B only bought one item curry.
+
+![image](https://user-images.githubusercontent.com/74512335/131220187-8b793b0b-9112-4f4e-8e09-3fbec10351ac.png)
+
+**8. What is the number of unique menu items and total amount spent for each member before they became a member?**
+
+Used DISTINCT because the question states **unique menu items**. This translates to how many items did the customer buy each item for the first time prior to membership including amount spent.
+
+![image](https://user-images.githubusercontent.com/74512335/131222635-7263e95b-8e44-4552-92b1-3c93357d70ad.png)
+
 
 **9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
 
