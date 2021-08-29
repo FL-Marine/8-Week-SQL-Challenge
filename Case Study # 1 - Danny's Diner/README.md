@@ -58,11 +58,11 @@ Two ctes were used to better split up queries by order count and popularity.
 
 Customers Favorite Food:
 
-Customer A - Ramen
+- Customer A - Ramen
 
-Customer B - 3 way time
+- Customer B - 3 way time
 
-Customer C - Ramen
+- Customer C - Ramen
 
 ![image](https://user-images.githubusercontent.com/74512335/131188041-7b1b7901-22bf-4ade-a2f9-80bd6a7191cc.png)
 
