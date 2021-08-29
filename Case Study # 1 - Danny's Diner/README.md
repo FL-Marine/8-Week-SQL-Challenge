@@ -60,7 +60,7 @@ Customers Favorite Food:
 
 - Customer A - Ramen
 
-- Customer B - 3 way time
+- Customer B - 3 way tie
 
 - Customer C - Ramen
 
