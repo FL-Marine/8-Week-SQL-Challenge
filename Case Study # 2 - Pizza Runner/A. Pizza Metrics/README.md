@@ -1,3 +1,7 @@
+**Link to ERD**: https://dbdiagram.io/d/5f3e085ccf48a141ff558487/?utm_source=dbdiagram_embed&utm_medium=bottom_open
+
+## **Datasets** - All datasets exist within the pizza_runner database schema
+
 # Case Study Questions & Solutions
 
 ## **A. Pizza Metrics**
