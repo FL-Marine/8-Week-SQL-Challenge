@@ -3,7 +3,7 @@
 
 ![image](https://user-images.githubusercontent.com/74512335/130088045-01bbd3aa-7619-437e-bcb8-cf19e95ccfba.png)
 
-## **Example Datasets**
+## **Datasets**
 
 Danny has shared 3 key datasets for this case study: **Sales | Menu | Members**
 
