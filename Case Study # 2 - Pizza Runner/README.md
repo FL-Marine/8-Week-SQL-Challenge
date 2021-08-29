@@ -49,19 +49,3 @@ Each pizza_id has a standard set of toppings which are used as part of the pizza
 This table contains all of the topping_name values with their corresponding topping_id value
 
 ![image](https://user-images.githubusercontent.com/74512335/131252371-a90175c7-7bbb-4979-a989-225fb9e003f8.png)
-
-# Case Study Questions & Solutions
-
-## **A. Pizza Metrics**
-
-**1. How many pizzas were ordered?**
-
-**2. How many unique customer orders were made?
-How many successful orders were delivered by each runner?
-How many of each type of pizza was delivered?
-How many Vegetarian and Meatlovers were ordered by each customer?
-What was the maximum number of pizzas delivered in a single order?
-For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
-How many pizzas were delivered that had both exclusions and extras?
-What was the total volume of pizzas ordered for each hour of the day?
-What was the volume of orders for each day of the week
