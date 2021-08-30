@@ -31,20 +31,77 @@ The final members table captures the join_date when a customer_id joined the bet
 **1. What is the total amount each customer spent at the restaurant?**
 
 LEFT JOIN was conducted to marry up the sales amounts for each menu item. GROUP BY used to show what each customer purchased & how much.
-
-![image](https://user-images.githubusercontent.com/74512335/130072193-b736b614-f2ff-4552-82d4-3d02cc43be2b.png)
+```sql
+SELECT
+  sales.customer_id,
+  SUM(menu.price) AS total_customer_sales
+FROM
+  dannys_diner.sales
+  LEFT JOIN dannys_diner.menu ON sales.product_id = menu.product_id
+GROUP BY
+  customer_id
+ORDER BY
+  customer_id;
+```
+**Result:**
+| customer\_id | total\_customer\_sales |
+| ------------ | ---------------------- |
+| A            | 76                     |
+| B            | 74                     |
+| C            | 36                     |
 
 **2. How many days has each customer visited the restaurant?**
 
 COUNT DISTINCT was needed in order to filter out duplicates and just get the days each customer visited the restaurant.
-
- ![image](https://user-images.githubusercontent.com/74512335/129976292-915675f8-75e5-4c8e-aced-179dbaed52c6.png)
+```sql
+SELECT
+  customer_id,
+  COUNT(DISTINCT order_date) AS customer_visit_days
+FROM
+  dannys_diner.sales
+GROUP BY
+  sales.customer_id
+ORDER BY
+  sales.customer_id;
+```
+**Result:**
+| customer\_id | customer\_visit\_days |
+| ------------ | --------------------- |
+| A            | 4                     |
+| B            | 6                     |
+| C            | 2                     |
 
 **3. What was the first item from the menu purchased by each customer?**
 
 Query result from order_date just gives dates, determining what was the first menu item purchase by the customer is not possible. Filtering to product_id gives a better idea of what the first purchase for the customer could be.
-
-![image](https://user-images.githubusercontent.com/74512335/130518858-95b83715-243a-4268-8673-72baf9f23e1a.png)
+```sql
+WITH customer_first_purchase AS (
+  SELECT
+    sales.customer_id,
+    menu.product_name,
+    ROW_NUMBER() OVER (
+      PARTITION BY sales.customer_id
+      ORDER BY
+        sales.order_date,
+        sales.product_id
+    ) AS first_item_order
+  FROM
+    dannys_diner.sales
+    LEFT JOIN dannys_diner.menu ON sales.product_id = menu.product_id
+)
+SELECT
+  *
+FROM
+  customer_first_purchase
+WHERE
+  first_item_order = 1;
+  ```
+  **Result:**
+| customer\_id | product\_name | first\_item\_order |
+| ------------ | ------------- | ------------------ |
+| A            | sushi         | 1                  |
+| B            | curry         | 1                  |
+| C            | ramen         | 1                  |
 
 **4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
 
