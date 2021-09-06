@@ -49,11 +49,11 @@ This table contains all of the topping_name values with their corresponding topp
 
 ## Word of caution from Danny - "Before you start writing your SQL queries however - you might want to investigate the data, you may want to do something with some of those null values and data types in the customer_orders and runner_orders tables."
 
-### Key tables to investigate need to check data types for each table
+## Key tables to investigate need to check data types for each table
 - **customer_orders**
 - **runner_orders**
 
-## Data type check - customer_orders
+### Data type check - customer_orders
 ```sql
 SELECT
   table_name,
@@ -72,7 +72,7 @@ WHERE table_name = 'customer_orders';
 | customer\_orders | extras       | character varying           |
 | customer\_orders | order\_time  | timestamp without time zone |
 
-## Data type check - runner_orders
+### Data type check - runner_orders
 ```sql
 SELECT
   table_name,
@@ -90,6 +90,9 @@ WHERE table_name = 'runner_orders';
 | runner\_orders | distance     | character varying |
 | runner\_orders | duration     | character varying |
 | runner\_orders | cancellation | character varying |
+
+## Cleaning Tables
+- **customer_orders**
 
 
 **1. How many pizzas were ordered?**
