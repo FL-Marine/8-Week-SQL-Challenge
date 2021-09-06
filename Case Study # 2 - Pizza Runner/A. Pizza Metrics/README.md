@@ -47,6 +47,51 @@ This table contains all of the topping_name values with their corresponding topp
 
 # Case Study Questions & Solutions
 
+## Word of caution from Danny - "Before you start writing your SQL queries however - you might want to investigate the data, you may want to do something with some of those null values and data types in the customer_orders and runner_orders tables."
+
+### Key tables to investigate need to check data types for each table
+- **customer_orders**
+- **runner_orders**
+
+## Data type check - customer_orders
+```sql
+SELECT
+  table_name,
+  column_name,
+  data_type
+FROM information_schema.columns
+WHERE table_name = 'customer_orders';
+```
+**Result:**
+| table\_name      | column\_name | data\_type                  |
+| ---------------- | ------------ | --------------------------- |
+| customer\_orders | order\_id    | integer                     |
+| customer\_orders | customer\_id | integer                     |
+| customer\_orders | pizza\_id    | integer                     |
+| customer\_orders | exclusions   | character varying           |
+| customer\_orders | extras       | character varying           |
+| customer\_orders | order\_time  | timestamp without time zone |
+
+## Data type check - runner_orders
+```sql
+SELECT
+  table_name,
+  column_name,
+  data_type
+FROM information_schema.columns
+WHERE table_name = 'runner_orders';
+```
+**Result:**
+| table\_name    | column\_name | data\_type        |
+| -------------- | ------------ | ----------------- |
+| runner\_orders | order\_id    | integer           |
+| runner\_orders | runner\_id   | integer           |
+| runner\_orders | pickup\_time | character varying |
+| runner\_orders | distance     | character varying |
+| runner\_orders | duration     | character varying |
+| runner\_orders | cancellation | character varying |
+
+
 **1. How many pizzas were ordered?**
 
 **2. How many unique customer orders were made?**
