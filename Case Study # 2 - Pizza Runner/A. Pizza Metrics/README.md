@@ -92,18 +92,17 @@ WHERE table_name = 'runner_orders';
 | runner\_orders | cancellation | character varying |
 
 ## Cleaning Tables
-**1. customer_orders**
+ ###  **1. customer_orders**
 - exclusions & extras columns need to be cleaned 
 - Need to update null values to be empty to indicate customers ordered no extras/exclusions
 - Current null results in exclusions & extras are not truly null they are be interpreted as strings.
 ```sql
 DROP TABLE IF EXISTS customer_orders_table_cleaned;
-CREATE TEMP TABLE customer_order_table_cleaned AS (
+CREATE TEMP TABLE customer_orders_table_cleaned AS (
   SELECT
     order_id,
     customer_id,
     pizza_id,
-    order_time,
     CASE
       WHEN exclusions = '' THEN NULL
       WHEN exclusions = 'null' THEN NULL
@@ -114,13 +113,39 @@ CREATE TEMP TABLE customer_order_table_cleaned AS (
       WHEN extras = 'null' THEN NULL
       WHEN extras = 'Nan' THEN NULL
       ELSE extras
-    END AS extra
+    END AS extras,
+    order_time
   FROM
     pizza_runner.customer_orders
 );
 
-SELECT * FROM pizza_runner.customer_orders_table_cleaned;
+SELECT * FROM customer_orders_table_cleaned;
 ```
+**New Table Result:**
+| order\_id | customer\_id | pizza\_id | exlcusions | extras | order\_time              |
+| --------- | ------------ | --------- | ---------- | ----- | ------------------------ |
+| 1         | 101          | 1         |            |       | 2021-01-01T18:05:02.000Z |
+| 2         | 101          | 1         |            |       | 2021-01-01T19:00:52.000Z |
+| 3         | 102          | 1         |            |       | 2021-01-02T23:51:23.000Z |
+| 3         | 102          | 2         |            |       | 2021-01-02T23:51:23.000Z |
+| 4         | 103          | 1         | 4          |       | 2021-01-04T13:23:46.000Z |
+| 4         | 103          | 1         | 4          |       | 2021-01-04T13:23:46.000Z |
+| 4         | 103          | 2         | 4          |       | 2021-01-04T13:23:46.000Z |
+| 5         | 104          | 1         |            | 1     | 2021-01-08T21:00:29.000Z |
+| 6         | 101          | 2         |            |       | 2021-01-08T21:03:13.000Z |
+| 7         | 105          | 2         |            | 1     | 2021-01-08T21:20:29.000Z |
+| 8         | 102          | 1         |            |       | 2021-01-09T23:54:33.000Z |
+| 9         | 103          | 1         | 4          | 1, 5  | 2021-01-10T11:22:59.000Z |
+| 10        | 104          | 1         |            |       | 2021-01-11T18:34:49.000Z |
+| 10        | 104          | 1         | 2, 6       | 1, 4  | 2021-01-11T18:34:49.000Z |
+
+### **2.runner_orders**
+- **Need to convert pickup_time, distance, and duration from character varying to integer**
+- **Remove nulls where orders are cancelled**
+- **null text needs to be null values**
+- **distance and duration metrics need to be removed not consistent these columns are to be integers**
+```sql
+
 
 
 
