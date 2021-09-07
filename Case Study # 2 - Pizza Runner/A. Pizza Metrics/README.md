@@ -92,7 +92,36 @@ WHERE table_name = 'runner_orders';
 | runner\_orders | cancellation | character varying |
 
 ## Cleaning Tables
-- **customer_orders**
+**1. customer_orders**
+- exclusions & extras columns need to be cleaned 
+- Need to update null values to be empty to indicate customers ordered no extras/exclusions
+- Current null results in exclusions & extras are not truly null they are be interpreted as strings.
+```sql
+DROP TABLE IF EXISTS customer_orders_table_cleaned;
+CREATE TEMP TABLE customer_order_table_cleaned AS (
+  SELECT
+    order_id,
+    customer_id,
+    pizza_id,
+    order_time,
+    CASE
+      WHEN exclusions = '' THEN NULL
+      WHEN exclusions = 'null' THEN NULL
+      ELSE exclusions
+    END AS exlcusions,
+    CASE
+      WHEN extras = '' THEN NULL
+      WHEN extras = 'null' THEN NULL
+      WHEN extras = 'Nan' THEN NULL
+      ELSE extras
+    END AS extra
+  FROM
+    pizza_runner.customer_orders
+);
+
+SELECT * FROM pizza_runner.customer_orders_table_cleaned;
+```
+
 
 
 **1. How many pizzas were ordered?**
