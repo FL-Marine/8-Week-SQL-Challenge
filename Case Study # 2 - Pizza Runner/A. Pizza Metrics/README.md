@@ -184,7 +184,9 @@ SELECT * FROM runner_orders_table_cleaned;
 | 9         | 2          |                          |          |          | Customer Cancellation   |
 | 10        | 1          | 2021-01-11T18:50:20.000Z | 10       | 10       |                         |
 
-
+# Verifying data types changes
+ ###  **1. customer_orders**
+ ### **2. runner_orders**
 
 **1. How many pizzas were ordered?**
 
