@@ -95,7 +95,7 @@ WHERE table_name = 'runner_orders';
  ###  **1. customer_orders**
 - exclusions & extras columns need to be cleaned 
 - Need to update null values to be empty to indicate customers ordered no extras/exclusions
-- Current null results in exclusions & extras are not truly null they are be interpreted as strings.
+- Current 'null' results in exclusions & extras are not truly null they are be interpreted as strings.
 ```sql
 DROP TABLE IF EXISTS customer_orders_table_cleaned;
 CREATE TEMP TABLE customer_orders_table_cleaned AS (
@@ -186,7 +186,46 @@ SELECT * FROM runner_orders_table_cleaned;
 
 # Verifying data types changes
  ###  **1. customer_orders**
+ ```sql
+ SELECT
+  table_name,
+  column_name,
+  data_type
+FROM information_schema.columns
+WHERE table_name = 'customer_orders_table_cleaned';
+```
+**Result: No data types were changed**
+| table\_name                      | column\_name | data\_type                  |
+| -------------------------------- | ------------ | --------------------------- |
+| customer\_orders\_table\_cleaned | order\_id    | integer                     |
+| customer\_orders\_table\_cleaned | customer\_id | integer                     |
+| customer\_orders\_table\_cleaned | pizza\_id    | integer                     |
+| customer\_orders\_table\_cleaned | exlcusions   | character varying           |
+| customer\_orders\_table\_cleaned | extras       | character varying           |
+| customer\_orders\_table\_cleaned | order\_time  | timestamp without time zone |
+ 
  ### **2. runner_orders**
+ ```sql
+ SELECT
+  table_name,
+  column_name,
+  data_type
+FROM information_schema.columns
+WHERE table_name = 'runner_orders_table_cleaned';
+```
+**Result: No data types were changed**
+| table\_name                    | column\_name | data\_type                  |
+| ------------------------------ | ------------ | --------------------------- |
+| runner\_orders\_table\_cleaned | order\_id    | integer                     |
+| runner\_orders\_table\_cleaned | runner\_id   | integer                     |
+| runner\_orders\_table\_cleaned | pickup\_time | timestamp without time zone | 
+| runner\_orders\_table\_cleaned | distance     | numeric                     |
+| runner\_orders\_table\_cleaned | duration     | numeric                     |
+| runner\_orders\_table\_cleaned | cancellation | character varying           |
+
+- Changed from character varying to timestamp without time zone
+- Changed from character varying to numeric
+- Changed from character varying to numeric
 
 **1. How many pizzas were ordered?**
 
