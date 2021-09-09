@@ -213,7 +213,7 @@ WHERE table_name = 'customer_orders_table_cleaned';
 FROM information_schema.columns
 WHERE table_name = 'runner_orders_table_cleaned';
 ```
-**Result: No data types were changed**
+**Result: Changes below**
 | table\_name                    | column\_name | data\_type                  |
 | ------------------------------ | ------------ | --------------------------- |
 | runner\_orders\_table\_cleaned | order\_id    | integer                     |
