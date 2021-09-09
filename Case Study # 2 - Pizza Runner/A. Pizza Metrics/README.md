@@ -45,8 +45,6 @@ This table contains all of the topping_name values with their corresponding topp
 
 ![image](https://user-images.githubusercontent.com/74512335/131252371-a90175c7-7bbb-4979-a989-225fb9e003f8.png)
 
-# Case Study Questions & Solutions
-
 ## Word of caution from Danny - "Before you start writing your SQL queries however - you might want to investigate the data, you may want to do something with some of those null values and data types in the customer_orders and runner_orders tables."
 
 ## Key tables to investigate need to check data types for each table
@@ -226,6 +224,8 @@ WHERE table_name = 'runner_orders_table_cleaned';
 - Changed from character varying to timestamp without time zone
 - Changed from character varying to numeric
 - Changed from character varying to numeric
+
+# Case Study Questions & Solutions
 
 **1. How many pizzas were ordered?**
 
