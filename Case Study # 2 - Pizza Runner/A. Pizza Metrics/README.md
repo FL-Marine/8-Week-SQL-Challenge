@@ -89,6 +89,8 @@ WHERE table_name = 'runner_orders';
 | runner\_orders | duration     | character varying |
 | runner\_orders | cancellation | character varying |
 
+___
+
 ## Cleaning Tables
  ###  **1. customer_orders**
 - exclusions & extras columns need to be cleaned 
@@ -182,6 +184,7 @@ SELECT * FROM runner_orders_table_cleaned;
 | 9         | 2          |                          |          |          | Customer Cancellation   |
 | 10        | 1          | 2021-01-11T18:50:20.000Z | 10       | 10       |                         |
 
+___
 # Verifying data types changes
  ###  **1. customer_orders**
  ```sql
@@ -224,12 +227,21 @@ WHERE table_name = 'runner_orders_table_cleaned';
 - Changed from character varying to timestamp without time zone
 - Changed from character varying to numeric
 - Changed from character varying to numeric
+___
 
 # Case Study Questions & Solutions
 
 **1. How many pizzas were ordered?**
+```sql
+SELECT COUNT(*) as pizza_orders
+FROM customer_orders_table_cleaned;
+```
+**Result:**
+| pizza\_orders |
+| ------------- |
+| 14            |
 
-**2. How many unique customer orders were made?**
+ **2. How many unique customer orders were made?**
 
 **3.How many successful orders were delivered by each runner?**
 
