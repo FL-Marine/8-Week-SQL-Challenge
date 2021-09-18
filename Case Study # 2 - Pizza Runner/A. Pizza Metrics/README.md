@@ -242,6 +242,14 @@ FROM customer_orders_table_cleaned;
 | 14            |
 
  **2. How many unique customer orders were made?**
+ ```sql
+ SELECT COUNT (DISTINCT order_id) AS order_count
+FROM customer_orders_table_cleaned;
+```
+**Result:**
+| order\_count  |
+| ------------- |
+| 10            |
 
 **3.How many successful orders were delivered by each runner?**
 
