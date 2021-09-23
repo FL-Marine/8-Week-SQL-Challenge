@@ -252,6 +252,22 @@ FROM customer_orders_table_cleaned;
 | 10            |
 
 **3.How many successful orders were delivered by each runner?**
+```sql
+SELECT
+  runner_id,
+  COUNT(order_id) AS successful_orders
+FROM runner_orders_table_cleaned
+WHERE cancellation IS NULL
+OR cancellation NOT IN ('Restaurant Cancellation', 'Customer Cancellation')
+GROUP BY runner_id
+ORDER BY successful_orders DESC;
+```
+**Result:**
+| runner\_id | successful\_orders |
+| ---------- | ------------------ |
+| 1          | 4                  |
+| 2          | 3                  |
+| 3          | 1                  |
 
 **4. How many of each type of pizza was delivered?**
 
