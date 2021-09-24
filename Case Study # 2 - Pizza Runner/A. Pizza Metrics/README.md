@@ -270,6 +270,37 @@ ORDER BY successful_orders DESC;
 | 3          | 1                  |
 
 **4. How many of each type of pizza was delivered?**
+```sql
+/*Need 3 tables 
+1. customer_orders_table_cleaned AS t1
+    Column - order_id
+2. pizza_runner.pizza_names AS t2
+    Column - pizza_id
+3. runner_orders_table_cleaned AS t3
+    Column - order_id*/
+SELECT
+  t2.pizza_name,
+  COUNT(t1.*) AS delivered_pizza_counts
+FROM
+  customer_orders_table_cleaned AS t1
+  INNER JOIN pizza_runner.pizza_names AS t2 ON t1.pizza_id = t2.pizza_id
+  INNER JOIN runner_orders_table_cleaned AS t3 ON t3.order_id = t1.order_id
+WHERE
+  cancellation IS NULL
+  OR cancellation NOT IN (
+    'Restaurant Cancellation',
+    'Customer Cancellation'
+  )
+GROUP BY
+  t2.pizza_name
+ORDER BY
+  t2.pizza_name;
+  ```
+  **Result:**
+  | pizza\_name | delivered\_pizza\_counts |
+| ----------- | ------------------------ |
+| Meatlovers  | 9                        |
+| Vegetarian  | 3                        |
 
 **5. How many Vegetarian and Meatlovers were ordered by each customer?**
 
