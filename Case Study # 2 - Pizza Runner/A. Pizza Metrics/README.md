@@ -303,6 +303,23 @@ ORDER BY
 | Vegetarian  | 3                        |
 
 **5. How many Vegetarian and Meatlovers were ordered by each customer?**
+```sql
+SELECT 
+customer_id,
+  SUM(CASE WHEN pizza_id = 1 THEN 1 ELSE 0 END) AS meatlovers,
+  SUM(CASE WHEN pizza_id = 2 THEN 2 ELSE 0 END) AS vegetarian
+FROM  customer_orders_table_cleaned
+GROUP BY customer_id
+ORDER BY customer_id;
+```
+  **Result:**
+  | customer\_id | meatlovers | vegetarian |
+| ------------ | ---------- | ---------- |
+| 101          | 2          | 2          |
+| 102          | 2          | 2          |
+| 103          | 3          | 2          |
+| 104          | 3          | 0          |
+| 105          | 0          | 2          |
 
 **6. What was the maximum number of pizzas delivered in a single order?**
 
