@@ -322,6 +322,28 @@ ORDER BY customer_id;
 | 105          | 0          | 2          |
 
 **6. What was the maximum number of pizzas delivered in a single order?**
+```sql
+WITH max_pizza_order AS (
+  SELECT
+    COUNT(pizza_id) AS max_count,
+    t1.order_id AS order_count
+  FROM customer_orders_table_cleaned AS t1
+  INNER JOIN runner_orders_table_cleaned AS t2
+    ON t1.order_id = t2.order_id
+  WHERE 
+    t2.cancellation is NULL
+  OR
+    t2.cancellation NOT IN ('Restaurant Cancellation', 'Customer Cancellation')
+  GROUP BY t1.order_id
+  ORDER BY max_count DESC
+  LIMIT 1
+)
+SELECT max_count FROM max_pizza_order WHERE order_count > 1 
+```
+ **Result:**
+| max\_count  |
+| ------------- |
+| 3            |
 
 **7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?**
 
