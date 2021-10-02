@@ -346,7 +346,6 @@ SELECT order_id, max_count FROM max_pizza_order WHERE max_count > 1;
 | --------- | ---------- |
 | 4         | 3          |
 
-
 **7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?**
 
 **8. How many pizzas were delivered that had both exclusions and extras?**
