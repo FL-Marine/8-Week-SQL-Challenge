@@ -337,16 +337,15 @@ WITH max_pizza_order AS (
     t2.cancellation NOT IN ('Restaurant Cancellation', 'Customer Cancellation')
   GROUP BY t1.order_id
   ORDER BY max_count DESC
-
+  LIMIT 1
 )
-SELECT order_id, max_count FROM max_pizza_order WHERE max_count > 1;;
+SELECT order_id, max_count FROM max_pizza_order WHERE max_count > 1;
 ```
  **Result:**
 | order\_id | max\_count |
 | --------- | ---------- |
 | 4         | 3          |
-| 10        | 2          |
-| 3         | 2          |
+
 
 **7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?**
 
