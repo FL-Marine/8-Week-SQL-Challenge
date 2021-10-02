@@ -325,8 +325,8 @@ ORDER BY customer_id;
 ```sql
 WITH max_pizza_order AS (
   SELECT
-    COUNT(pizza_id) AS max_count,
-    t1.order_id AS order_count
+      t1.order_id,
+    COUNT(pizza_id) AS max_count
   FROM customer_orders_table_cleaned AS t1
   INNER JOIN runner_orders_table_cleaned AS t2
     ON t1.order_id = t2.order_id
@@ -336,14 +336,20 @@ WITH max_pizza_order AS (
     t2.cancellation NOT IN ('Restaurant Cancellation', 'Customer Cancellation')
   GROUP BY t1.order_id
   ORDER BY max_count DESC
-  LIMIT 1
+
 )
-SELECT max_count FROM max_pizza_order WHERE order_count > 1 
+SELECT order_id, max_count FROM max_pizza_order WHERE order_id > 1;
 ```
  **Result:**
-| max\_count  |
-| ------------- |
-| 3            |
+| order\_id | max\_count |
+| --------- | ---------- |
+| 4         | 3          |
+| 10        | 2          |
+| 3         | 2          |
+| 8         | 1          |
+| 2         | 1          |
+| 7         | 1          |
+| 5         | 1          |
 
 **7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?**
 
