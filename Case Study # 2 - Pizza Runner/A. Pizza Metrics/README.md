@@ -324,6 +324,7 @@ ORDER BY customer_id;
 **6. What was the maximum number of pizzas delivered in a single order?**
 ```sql
 WITH max_pizza_order AS (
+WITH max_pizza_order AS (
   SELECT
       t1.order_id,
     COUNT(pizza_id) AS max_count
@@ -338,7 +339,7 @@ WITH max_pizza_order AS (
   ORDER BY max_count DESC
 
 )
-SELECT order_id, max_count FROM max_pizza_order WHERE order_id > 1;
+SELECT order_id, max_count FROM max_pizza_order WHERE max_count > 1;;
 ```
  **Result:**
 | order\_id | max\_count |
@@ -346,10 +347,6 @@ SELECT order_id, max_count FROM max_pizza_order WHERE order_id > 1;
 | 4         | 3          |
 | 10        | 2          |
 | 3         | 2          |
-| 8         | 1          |
-| 2         | 1          |
-| 7         | 1          |
-| 5         | 1          |
 
 **7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?**
 
