@@ -324,7 +324,6 @@ ORDER BY customer_id;
 **6. What was the maximum number of pizzas delivered in a single order?**
 ```sql
 WITH max_pizza_order AS (
-WITH max_pizza_order AS (
   SELECT
       t1.order_id,
     COUNT(pizza_id) AS max_count
