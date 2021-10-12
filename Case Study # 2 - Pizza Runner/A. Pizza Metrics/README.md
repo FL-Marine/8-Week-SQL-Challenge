@@ -346,6 +346,27 @@ SELECT order_id, max_count FROM max_pizza_order WHERE max_count > 1;
 | 4         | 3          |
 
 **7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?**
+```sql
+SELECT 
+  coc.customer_id,
+  SUM(CASE WHEN exlcusions IS NOT NULL OR extras IS NOT NULL THEN 1 ELSE 0 END) AS changes,
+  SUM(CASE WHEN exlcusions IS NULL AND extras IS NULL THEN 1 ELSE 0 END) AS no_changes
+FROM customer_orders_table_cleaned AS coc
+INNER JOIN runner_orders_table_cleaned AS roc 
+  ON coc.order_id = roc.order_id
+WHERE roc.cancellation IS NULL
+  OR roc.cancellation NOT IN  ('Restaurant Cancellation', 'Customer Cancellation')
+GROUP BY coc.customer_id
+ORDER BY coc.customer_id;
+```
+ **Result:**
+ | customer\_id | changes | no\_changes |
+| ------------ | ------- | ----------- |
+| 101          | 0       | 2           |
+| 102          | 0       | 3           |
+| 103          | 3       | 0           |
+| 104          | 2       | 1           |
+| 105          | 1       | 0           |
 
 **8. How many pizzas were delivered that had both exclusions and extras?**
 
