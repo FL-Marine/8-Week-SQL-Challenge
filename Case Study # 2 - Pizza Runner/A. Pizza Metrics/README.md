@@ -369,6 +369,19 @@ ORDER BY coc.customer_id;
 | 105          | 1       | 0           |
 
 **8. How many pizzas were delivered that had both exclusions and extras?**
+```sql
+SELECT COUNT(*) AS delievered_exclusions_extras
+  FROM customer_orders_table_cleaned AS co
+  INNER JOIN runner_orders_table_cleaned as ro
+  ON
+  co.order_id = ro.order_id
+WHERE cancellation is NULL
+  AND (extras IS NOT NULL AND exlcusions IS NOT NULL);
+  ```
+  **Result:**
+| delievered\_exclusions\_extras |
+| ------------------------------ |
+| 1                              |
 
 **9. What was the total volume of pizzas ordered for each hour of the day?**
 
