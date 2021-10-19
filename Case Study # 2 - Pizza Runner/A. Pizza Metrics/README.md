@@ -384,6 +384,23 @@ WHERE cancellation is NULL
 | 1                              |
 
 **9. What was the total volume of pizzas ordered for each hour of the day?**
+```sql
+SELECT
+  DATE_PART('HOUR', order_time::TIMESTAMP) AS hour_of_the_day,
+  COUNT(*) AS pizza_count
+FROM customer_orders_table_cleaned
+GROUP BY hour_of_the_day
+ORDER BY hour_of_the_day;
+```
+**Result:**
+| hour\_of\_the\_day | pizza\_count |
+| ------------------ | ------------ |
+| 11                 | 1            |
+| 13                 | 3            |
+| 18                 | 3            |
+| 19                 | 1            |
+| 21                 | 3            |
+| 23                 | 3            |
 
 **10. What was the volume of orders for each day of the week**
 
