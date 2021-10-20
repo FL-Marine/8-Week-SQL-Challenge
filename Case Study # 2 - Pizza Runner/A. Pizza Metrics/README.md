@@ -403,4 +403,22 @@ ORDER BY hour_of_the_day;
 | 23                 | 3            |
 
 **10. What was the volume of orders for each day of the week**
-
+```sql
+SELECT
+  TO_CHAR(order_time, 'Day') AS day_of_week,
+  COUNT(*) AS pizza_count
+FROM
+  customer_orders_table_cleaned
+GROUP BY
+  day_of_week,
+  DATE_PART('dow', order_time)
+ORDER BY
+  day_of_week;
+  ```
+  **Result:**
+  | day\_of\_week | pizza\_count |
+| ------------- | ------------ |
+| Friday        | 5            |
+| Monday        | 5            |
+| Saturday      | 3            |
+| Sunday        | 1            |
