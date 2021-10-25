@@ -64,6 +64,68 @@ Each pizza_id has a standard set of toppings which are used as part of the pizza
 # Case Study Questions & Solutions
 
 **1. How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)**
+```sql
+/* Using 'month with DATE_TRUNC was not giving me the approriate output so I decided to try using 'week'*/
+
+SELECT DATE_TRUNC('month', DATE '2021-01-01'),
+COUNT(*) AS runners
+FROM pizza_runner.runners;
+```
+**Result:**
+| date\_trunc              | runners |
+| ------------------------ | ------- |
+| 2021-01-01T00:00:00.000Z | 4       |
+
+```sql
+/* I noticed that the beginning of the target date is 2020-12-28
+which tells me that 2021-01-01 does not start on a Monday. */
+
+SELECT DATE_TRUNC('week', DATE '2021-01-01'),
+COUNT(*) AS runners
+FROM pizza_runner.runners;
+```
+**Result:**
+| date\_trunc              | runners |
+| ------------------------ | ------- |
+| 2020-12-28T00:00:00.000Z | 4       |
+
+```sql
+/* I could of easily just went to the calender on my laptop and figured out what day of week
+2020-12-28 & and 2021-01-01 fall on but I wanted to practied extracting the day of the week  */
+
+SELECT
+  EXTRACT(DOW FROM DATE '2020-12-28'), 
+  TO_CHAR(DATE '2020-12-28', 'Day') AS Dec_28_2020
+  ```
+**Result:**
+| date\_part | dec\_28\_2020 |
+| ---------- | ------------- |
+| 1          | Monday        |
+
+```sql
+SELECT
+  EXTRACT(DOW FROM DATE '2021-01-01'),
+  TO_CHAR(DATE '2021-01-01', 'Day') AS Jan_01_2021
+```
+**Result:**
+| date\_part | jan\_01\_2021 |
+| ---------- | ------------- |
+| 5          | Friday        |
+
+```sql
+SELECT 
+  DATE_TRUNC('week', registration_date)::DATE + 4   AS registration_week,
+  COUNT(*) AS runners
+FROM pizza_runner.runners
+GROUP BY registration_week
+ORDER BY registration_week;
+```
+**Result:**
+| registration\_week       | runners |
+| ------------------------ | ------- |
+| 2021-01-01T00:00:00.000Z | 2       |
+| 2021-01-08T00:00:00.000Z | 1       |
+| 2021-01-15T00:00:00.000Z | 1       |
 
 **2. What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?**
 
