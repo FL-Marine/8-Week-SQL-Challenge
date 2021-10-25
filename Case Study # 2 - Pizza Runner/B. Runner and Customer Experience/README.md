@@ -77,8 +77,8 @@ FROM pizza_runner.runners;
 | 2021-01-01T00:00:00.000Z | 4       |
 
 ```sql
-/* I noticed that the beginning of the target date is 2020-12-28
-which tells me that 2021-01-01 does not start on a Monday. */
+/*I noticed that the beginning of the target date is 2020-12-28
+which tells me that 2021-01-01 does not start on a Monday.*/
 
 SELECT DATE_TRUNC('week', DATE '2021-01-01'),
 COUNT(*) AS runners
@@ -90,8 +90,8 @@ FROM pizza_runner.runners;
 | 2020-12-28T00:00:00.000Z | 4       |
 
 ```sql
-/* I could of easily just went to the calender on my laptop and figured out what day of week
-2020-12-28 & and 2021-01-01 fall on but I wanted to practied extracting the day of the week  */
+/*I could of easily just went to the calender on my laptop and figured out what day of week
+2020-12-28 & and 2021-01-01 fall on but I wanted to practied extracting the day of the week.*/
 
 SELECT
   EXTRACT(DOW FROM DATE '2020-12-28'), 
@@ -119,6 +119,7 @@ SELECT
 FROM pizza_runner.runners
 GROUP BY registration_week
 ORDER BY registration_week;
+/*The issue was that with DATE_TRUNC the default day starts on Monday as 1 but 2021-01-01 is a Friday which is Day 5.*/
 ```
 **Result:**
 | registration\_week       | runners |
