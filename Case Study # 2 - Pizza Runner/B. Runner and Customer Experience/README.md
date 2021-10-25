@@ -114,7 +114,7 @@ SELECT
 
 ```sql
 SELECT 
-  DATE_TRUNC('week', registration_date)::DATE + 4   AS registration_week,
+  DATE_TRUNC('week', registration_date)::DATE + 4 AS registration_week,
   COUNT(*) AS runners
 FROM pizza_runner.runners
 GROUP BY registration_week
