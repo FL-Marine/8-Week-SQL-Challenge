@@ -360,6 +360,56 @@ ORDER BY runner_id ASC;
 | 3          | 10.000               |
 
 **3. Is there any relationship between the number of pizzas and how long the order takes to prepare?**
+```sql
+/*Original Code*/
+SELECT DISTINCT
+  t1.order_id,
+  DATE_PART('min', AGE(t1.pickup_time::TIMESTAMP, t2.order_time))::INTEGER AS pickup_minutes,
+  SUM(t2.order_id) AS pizza_count
+FROM pizza_runner.runner_orders AS t1
+INNER JOIN pizza_runner.customer_orders AS t2
+  ON t1.runner_id = t2.order_id
+WHERE t1.pickup_time != 'null'
+GROUP BY t1.order_id, pickup_minutes
+ORDER BY pizza_count;
+```
+**Result:**
+| order\_id | pickup\_minutes | pizza\_count |
+| --------- | --------------- | ------------ |
+| 1         | 10              | 1            |
+| 2         | 5               | 1            |
+| 3         | 7               | 1            |
+| 10        | 45              | 1            |
+| 4         | 52              | 2            |
+| 7         | 29              | 2            |
+| 8         | 14              | 2            |
+| 5         | 19              | 6            |
+
+```sql
+/*I decided to find the errors for the above code by changing the SUM to COUNT 
+and the join from t1.pickup_time to t1.order_id.*/
+SELECT DISTINCT
+  t1.order_id,
+  DATE_PART('min', AGE(t1.pickup_time::TIMESTAMP, t2.order_time))::INTEGER AS pickup_minutes,
+  COUNT(t2.order_id) AS pizza_count
+FROM pizza_runner.runner_orders AS t1
+INNER JOIN pizza_runner.customer_orders AS t2
+  ON t1.order_id = t2.order_id
+WHERE t1.pickup_time != 'null'
+GROUP BY t1.order_id, pickup_minutes
+ORDER BY pizza_count, order_id;
+```
+**Result:**
+| order\_id | pickup\_minutes | pizza\_count |
+| --------- | --------------- | ------------ |
+| 1         | 10              | 1            |
+| 2         | 10              | 1            |
+| 5         | 10              | 1            |
+| 7         | 10              | 1            |
+| 8         | 20              | 1            |
+| 3         | 21              | 2            |
+| 10        | 15              | 2            |
+| 4         | 29              | 3            |
 
 **4. What was the average distance travelled for each customer?**
 
