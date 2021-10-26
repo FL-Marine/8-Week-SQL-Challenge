@@ -129,6 +129,30 @@ ORDER BY registration_week;
 | 2021-01-15T00:00:00.000Z | 1       |
 
 **2. What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?**
+```sql
+WITH cte_pickup_minutes AS (
+  SELECT DISTINCT
+    runner_id,
+    t1.order_id,
+    DATE_PART('minute', AGE(t1.pickup_time::TIMESTAMP, t2.order_time::TIMESTAMP))::INTEGER AS pickup_minutes
+  FROM pizza_runner.runner_orders AS t1
+  INNER JOIN pizza_runner.customer_orders AS t2
+    ON t1.order_id = t2.order_id
+  WHERE t1.pickup_time != 'null'
+)
+SELECT
+  runner_id,
+  ROUND(AVG(pickup_minutes), 3) AS avg_pickup_minutes
+FROM cte_pickup_minutes
+GROUP by runner_id
+ORDER BY runner_id ASC;
+```
+**Result:**
+| runner\_id | avg\_pickup\_minutes |
+| ---------- | -------------------- |
+| 1          | 14.000               |
+| 2          | 19.667               |
+| 3          | 10.000               |
 
 **3. Is there any relationship between the number of pizzas and how long the order takes to prepare?**
 
