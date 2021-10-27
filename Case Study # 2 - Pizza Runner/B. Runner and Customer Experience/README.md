@@ -412,6 +412,26 @@ ORDER BY pizza_count, order_id;
 | 4         | 29              | 3            |
 
 **4. What was the average distance travelled for each customer?**
+```sql
+SELECT
+  co.customer_id,
+  ROUND(AVG(distance), 1) AS avg_distance
+FROM
+  customer_orders_table_cleaned AS co
+  INNER JOIN runner_orders_table_cleaned AS ro ON co.order_id = ro.order_id
+GROUP BY
+  customer_id
+ORDER BY
+   customer_id;
+   ```
+**Result:**
+| customer\_id | avg\_distance |
+| ------------ | ------------- |
+| 101          | 20.0          |
+| 102          | 16.7          |
+| 103          | 23.4          |
+| 104          | 10.0          |
+| 105          | 25.0          |
 
 **5. What was the difference between the longest and shortest delivery times for all orders?**
 
