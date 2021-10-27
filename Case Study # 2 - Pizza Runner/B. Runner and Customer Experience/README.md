@@ -434,6 +434,16 @@ ORDER BY
 | 105          | 25.0          |
 
 **5. What was the difference between the longest and shortest delivery times for all orders?**
+```sql
+SELECT
+ MAX(duration) - MIN(duration) AS max_difference
+FROM
+   runner_orders_table_cleaned AS ro;
+```
+**Result:**
+| max\_difference |
+| --------------- |
+| 30              |
 
 **6. What was the average speed for each runner for each delivery and do you notice any trend for these values?** 
 
