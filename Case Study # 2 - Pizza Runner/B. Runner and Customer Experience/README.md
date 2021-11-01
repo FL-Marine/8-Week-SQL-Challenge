@@ -446,6 +446,55 @@ FROM
 | 30              |
 
 **6. What was the average speed for each runner for each delivery and do you notice any trend for these values?** 
+```sql
+SELECT
+  co.customer_id,
+  ro.runner_id,
+    co.order_id,
+  COUNT(co.order_id) AS pizza_count,
+  DATE_PART('hour', pickup_time :: TIMESTAMP) AS hour_of_day,
+  distance,
+  duration,
+  ROUND(AVG(distance / duration * 60), 2) AS avg_speed
+FROM
+  customer_orders_table_cleaned AS co
+  INNER JOIN runner_orders_table_cleaned AS ro ON co.order_id = ro.order_id
+WHERE
+  pickup_time IS NOT NULL
+GROUP BY
+  co.customer_id,
+  ro.runner_id,
+  co.order_id,
+  ro.pickup_time,
+  distance,
+  duration
+ORDER BY
+  runner_id, avg_speed DESC;
+
+/*Observations
+Runner 1 has the most orders qty 6
+Runner 2 has 5 orders
+Runner 3 has 1 order
+
+Runner 1 most has orders late in the day
+Runner 2 has late orders as well and the fastest being around midnight most
+likely due to no traffic
+Runner 3 needs to pick up more orders is not deliverying enough
+
+Overall, most orders are ran in the evenings could potentially have marketing times during those hours
+or make a delivery happy hour to increase the quantity of orders./*
+```
+**Result:**
+| customer\_id | runner\_id | order\_id | pizza\_count | hour\_of\_day | distance | duration | avg\_speed |
+| ------------ | ---------- | --------- | ------------ | ------------- | -------- | -------- | ---------- |
+| 104          | 1          | 10        | 2            | 18            | 10       | 10       | 60.00      |
+| 101          | 1          | 2         | 1            | 19            | 20       | 27       | 44.44      |
+| 102          | 1          | 3         | 2            | 0             | 13.4     | 20       | 40.20      |
+| 101          | 1          | 1         | 1            | 18            | 20       | 32       | 37.50      |
+| 102          | 2          | 8         | 1            | 0             | 23.4     | 15       | 93.60      |
+| 105          | 2          | 7         | 1            | 21            | 25       | 25       | 60.00      |
+| 103          | 2          | 4         | 3            | 13            | 23.4     | 40       | 35.10      |
+| 104          | 3          | 5         | 1            | 21            | 10       | 15       | 40.00      |
 
 **7. What is the successful delivery percentage for each runner?**
  
