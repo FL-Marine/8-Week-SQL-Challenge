@@ -450,7 +450,7 @@ FROM
 SELECT
   co.customer_id,
   ro.runner_id,
-    co.order_id,
+  co.order_id,
   COUNT(co.order_id) AS pizza_count,
   DATE_PART('hour', pickup_time :: TIMESTAMP) AS hour_of_day,
   distance,
