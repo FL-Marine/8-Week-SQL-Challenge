@@ -497,4 +497,22 @@ or make a delivery happy hour to increase the quantity of orders./*
 | 104          | 3          | 5         | 1            | 21            | 10       | 15       | 40.00      |
 
 **7. What is the successful delivery percentage for each runner?**
- 
+ ```sql
+ SELECT
+  runner_id,
+  COUNT(order_id) AS orders,
+  COUNT(pickup_time) AS delivered,
+  ROUND(100 * COUNT(pickup_time) / COUNT(order_id)) AS success_percentage
+FROM
+  runner_orders_table_cleaned
+GROUP BY
+  runner_id
+ORDER BY
+  runner_id;
+  ```
+  **Result:**
+  | runner\_id | orders | delivered | success\_percentage |
+| ---------- | ------ | --------- | ------------------- |
+| 1          | 4      | 4         | 100                 |
+| 2          | 4      | 3         | 75                  |
+| 3          | 2      | 1         | 50                  |
