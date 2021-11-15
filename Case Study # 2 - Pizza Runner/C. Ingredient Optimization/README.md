@@ -268,6 +268,58 @@ WHERE table_name = 'runner_orders_table_cleaned';
 # Case Study Questions & Solutions
 
 **1. What are the standard ingredients for each pizza?**
+```sql
+--Original Code--
+WITH cte_split_pizza_names AS (
+  SELECT
+    pizza_id,
+    REGEXP_SPLIT_TO_TABLE(toppings, '[,\s]+') :: INTEGER AS topping_id
+  FROM
+    pizza_runner.pizza_recipes
+)
+SELECT
+  pizza_id,
+  STRING_AGG(t1.topping_id :: TEXT, '') AS standard_ingredients
+FROM
+  cte_split_pizza_names AS t1
+  INNER JOIN pizza_runner.pizza_toppings AS t2 ON t1.topping_id = t2.topping_id
+GROUP BY
+  pizza_id
+ORDER BY
+  pizza_id;
+
+--Debugged Code--
+  WITH cte_split_pizza_names AS (
+    SELECT
+      pizza_id,
+      REGEXP_SPLIT_TO_TABLE(toppings, '[,\s]+') :: INTEGER AS topping_id
+    FROM
+      pizza_runner.pizza_recipes
+  )
+SELECT
+  t1.pizza_id,
+  t3.pizza_name,
+  STRING_AGG(t2.topping_name :: TEXT, ', ') AS standard_ingredients
+FROM
+  cte_split_pizza_names AS t1
+  INNER JOIN pizza_runner.pizza_toppings AS t2 ON t1.topping_id = t2.topping_id
+  INNER JOIN pizza_runner.pizza_names AS t3 ON t1.pizza_id = t3.pizza_id
+GROUP BY
+  t1.pizza_id,
+  t3.pizza_name
+ORDER BY
+  t1.pizza_id;
+--Code debugging changes--
+  /*
+  - INNER JOIN pizza_names table (t3) to get the names 
+  - Changed STRING_AGG(t1.topping_id::TEXT, '') 
+  to  STRING_AGG(t2.topping_name::TEXT, ',') /*
+  ```
+  **Result:
+  | pizza\_id | pizza\_name | standard\_ingredients                                               |
+| --------- | ----------- | --------------------------------------------------------------------- |
+| 1         | Meatlovers  | BBQ Sauce, Pepperoni, Cheese, Salami, Chicken, Bacon, Mushrooms, Beef |
+| 2         | Vegetarian  | Tomato Sauce, Cheese, Mushrooms, Onions, Peppers, Tomatoes            |
 
 **2. What was the most commonly added extra?**
 
