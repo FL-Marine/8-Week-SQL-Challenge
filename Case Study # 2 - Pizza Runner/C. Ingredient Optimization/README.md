@@ -315,7 +315,7 @@ ORDER BY
   - Changed STRING_AGG(t1.topping_id::TEXT, '') 
   to  STRING_AGG(t2.topping_name::TEXT, ',') /*
   ```
-  **Result:
+  **Result:**
   | pizza\_id | pizza\_name | standard\_ingredients                                               |
 | --------- | ----------- | --------------------------------------------------------------------- |
 | 1         | Meatlovers  | BBQ Sauce, Pepperoni, Cheese, Salami, Chicken, Bacon, Mushrooms, Beef |
