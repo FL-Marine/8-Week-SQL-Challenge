@@ -315,13 +315,56 @@ ORDER BY
   - Changed STRING_AGG(t1.topping_id::TEXT, '') 
   to  STRING_AGG(t2.topping_name::TEXT, ',') /*
   ```
-  **Result:**
+**Result:**
   | pizza\_id | pizza\_name | standard\_ingredients                                               |
 | --------- | ----------- | --------------------------------------------------------------------- |
 | 1         | Meatlovers  | BBQ Sauce, Pepperoni, Cheese, Salami, Chicken, Bacon, Mushrooms, Beef |
 | 2         | Vegetarian  | Tomato Sauce, Cheese, Mushrooms, Onions, Peppers, Tomatoes            |
 
 **2. What was the most commonly added extra?**
+```sql
+--Original Code--
+WITH cte_extras AS (
+SELECT
+  REGEXP_SPLIT_TO_TABLE(extras, '[,\s]+')::INTEGER AS topping_id
+FROM pizza_runner.customer_orders
+WHERE extras IS NULL AND extras IN ('null', '')
+)
+SELECT
+  topping_name,
+  COUNT(*) AS extras_count
+FROM cte_extras
+INNER JOIN pizza_runner.pizza_toppings
+  ON cte_extras.topping_id = pizza_toppings.topping_id
+GROUP BY topping_name
+ORDER BY extras_count DESC;
+
+--Debugged Code--
+WITH cte_extras AS (
+SELECT
+  REGEXP_SPLIT_TO_TABLE(extras, '[,\s]+')::INTEGER AS topping_id
+FROM pizza_runner.customer_orders
+WHERE extras IS NOT NULL AND extras NOT IN ('null', '')
+)
+SELECT
+  topping_name,
+  COUNT(*) AS extras_count
+FROM cte_extras
+INNER JOIN pizza_runner.pizza_toppings
+  ON cte_extras.topping_id = pizza_toppings.topping_id
+GROUP BY topping_name
+ORDER BY extras_count DESC;
+  /*
+  - Original code has no ouput
+  - Changed the WHERE clause to IS NOT NULL AND extras NOT IN*/
+  ```
+**Result:**
+| topping\_name | extras\_count |
+| ------------- | ------------- |
+| Bacon         | 4             |
+| Chicken       | 1             |
+| Cheese        | 1             |
+
 
 **3. What was the most common exclusion?**
 
