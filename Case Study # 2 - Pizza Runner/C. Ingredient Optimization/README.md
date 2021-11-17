@@ -365,8 +365,50 @@ ORDER BY extras_count DESC;
 | Chicken       | 1             |
 | Cheese        | 1             |
 
-
 **3. What was the most common exclusion?**
+``` sql
+--Original Code--
+WITH cte_exclusions AS (
+SELECT
+  REGEXP_SPLIT_TO_TABLE(exclusions, '[,\s]+')::INTEGER AS topping_id
+FROM pizza_runner.customer_orders
+WHERE exclusions IS NULL AND exclusions NOT IN ('null', '')
+)
+SELECT
+  topping_name,
+  COUNT(*) AS exclusions_count
+FROM cte_exclusions
+INNER JOIN pizza_runner.pizza_toppings
+  ON cte_exclusions.topping_id = pizza_toppings.topping_id
+GROUP BY topping_name
+ORDER BY exclusions_count;
+
+--Debugged Code--
+WITH cte_exclusions AS (
+SELECT
+  REGEXP_SPLIT_TO_TABLE(exclusions, '[,\s]+')::INTEGER AS topping_id
+FROM pizza_runner.customer_orders
+WHERE exclusions IS NOT NULL AND exclusions NOT IN ('null', '')
+)
+SELECT
+  topping_name,
+  COUNT(*) AS exclusions_count
+FROM cte_exclusions
+INNER JOIN pizza_runner.pizza_toppings
+  ON cte_exclusions.topping_id = pizza_toppings.topping_id
+GROUP BY topping_name
+ORDER BY exclusions_count DESC;
+  /*
+  - Original code has no ouput
+  - Changed the WHERE clause to IS NOT NULL
+  - Added DESC to the ORDER BY clause to see the most excluded topping*/
+  ```
+ **Result:** 
+| topping\_name | exclusions\_count |
+| ------------- | ----------------- |
+| Cheese        | 4                 |
+| Mushrooms     | 1                 |
+| BBQ Sauce     | 1                 |
 
 **4. Generate an order item for each record in the customers_orders table in the format of one of the following:**
 
