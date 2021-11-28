@@ -426,21 +426,11 @@ SELECT
   customer_id,
   pizza_id,
   order_time,
-  extras,
-  exlcusions
-FROM customer_orders_table_cleaned),
-
-order_item_table_2 AS (
-SELECT
-  order_id, 
-  customer_id,
-  pizza_id,
-  order_time,
   REGEXP_SPLIT_TO_TABLE(extras, '[,\s]+') :: text as topping_id,
-  REGEXP_SPLIT_TO_TABLE(exlcusions, '[,\s]+') :: text as exclusions
-FROM order_item_table)
-
-
+  REGEXP_SPLIT_TO_TABLE(exclusions, '[,\s]+') :: text as exclusions
+FROM pizza_runner.customer_orders
+ORDER BY order_id
+)
 SELECT
   order_id,
   customer_id,
@@ -450,11 +440,12 @@ SELECT
   --topping_name--
  -- oit2.topping_id,--
  -- exclusions--
-FROM order_item_table_2 AS oit2
+FROM order_item_table AS oit2
 INNER JOIN pizza_runner.pizza_names AS PN
   ON oit2.pizza_id = PN.pizza_id
 LEFT JOIN pizza_runner.pizza_toppings AS PT
   ON oit2.topping_id = pt.topping_id::text
+
   ```
  **Result:** 
  
