@@ -419,7 +419,45 @@ ORDER BY exclusions_count DESC;
 - Meat Lovers - Extra Bacon
 
 - Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers
+```sql
+WITH order_item_table AS (
+SELECT 
+  order_id, 
+  customer_id,
+  pizza_id,
+  order_time,
+  extras,
+  exlcusions
+FROM customer_orders_table_cleaned),
 
+order_item_table_2 AS (
+SELECT
+  order_id, 
+  customer_id,
+  pizza_id,
+  order_time,
+  REGEXP_SPLIT_TO_TABLE(extras, '[,\s]+') :: text as topping_id,
+  REGEXP_SPLIT_TO_TABLE(exlcusions, '[,\s]+') :: text as exclusions
+FROM order_item_table)
+
+
+SELECT
+  order_id,
+  customer_id,
+  oit2.pizza_id,
+  order_time,
+  pizza_name
+  --topping_name--
+ -- oit2.topping_id,--
+ -- exclusions--
+FROM order_item_table_2 AS oit2
+INNER JOIN pizza_runner.pizza_names AS PN
+  ON oit2.pizza_id = PN.pizza_id
+LEFT JOIN pizza_runner.pizza_toppings AS PT
+  ON oit2.topping_id = pt.topping_id::text
+  ```
+ **Result:** 
+ 
 **5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders table and add a 2x in front of any relevant ingredients**
 
 - For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
