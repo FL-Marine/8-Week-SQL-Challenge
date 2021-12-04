@@ -472,3 +472,105 @@ LEFT JOIN pizza_runner.pizza_toppings AS PT
 - For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
 
 **6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?**
+```sql
+WITH cte_cleaned_customer_orders AS (
+  SELECT
+    order_id,
+    customer_id,
+    pizza_id,
+    CASE
+      WHEN exclusions IN ('', 'null') THEN NULL
+      ELSE exclusions
+    END AS exclusions,
+    CASE
+      WHEN extras IN ('', 'null') THEN NULL
+      ELSE extras
+    END AS extras,
+    order_time,
+    RANK() OVER () AS original_row_number
+  FROM pizza_runner.customer_orders
+),
+-- split the toppings using our previous solution
+cte_regular_toppings AS (
+SELECT
+  pizza_id,
+  REGEXP_SPLIT_TO_TABLE(toppings, '[,\s]+')::INTEGER AS topping_id
+FROM pizza_runner.pizza_recipes
+),
+-- now we can should left join our regular toppings with all pizzas orders
+cte_base_toppings AS (
+  SELECT
+    cte_cleaned_customer_orders.order_id,
+    cte_cleaned_customer_orders.customer_id,
+    cte_cleaned_customer_orders.pizza_id,
+    cte_cleaned_customer_orders.order_time,
+    cte_cleaned_customer_orders.original_row_number,
+    cte_regular_toppings.topping_id
+  FROM cte_cleaned_customer_orders
+  LEFT JOIN cte_regular_toppings
+    ON cte_cleaned_customer_orders.pizza_id = cte_regular_toppings.pizza_id
+),
+-- now we can generate CTEs for exclusions and extras by the original row number
+cte_exclusions AS (
+  SELECT
+    order_id,
+    customer_id,
+    pizza_id,
+    order_time,
+    original_row_number,
+    REGEXP_SPLIT_TO_TABLE(exclusions, '[,\s]+')::INTEGER AS topping_id
+  FROM cte_cleaned_customer_orders
+  WHERE exclusions IS NOT NULL
+),
+-- check this one!
+cte_extras AS (
+  SELECT
+    order_id,
+    customer_id,
+    pizza_id,
+    order_time,
+    original_row_number,
+    REGEXP_SPLIT_TO_TABLE(extras, '[,\s]+')::INTEGER AS topping_id
+  FROM cte_cleaned_customer_orders
+  WHERE extras IS NOT NULL
+  
+  --Changed from NULL to IS NOT NULL--
+),
+-- now we can perform an except and a union all on the respective CTEs
+-- also check this one!
+cte_combined_orders AS (
+  SELECT * FROM cte_base_toppings
+  UNION ALL
+  SELECT * FROM cte_exclusions
+  UNION ALL
+  SELECT * FROM cte_extras
+)
+-- perform aggregation on topping_id and join to get topping names
+SELECT
+  t2.topping_name,
+  COUNT(*) AS topping_count
+FROM cte_combined_orders AS t1
+INNER JOIN pizza_runner.pizza_toppings AS t2
+  ON t1.topping_id = t2.topping_id
+GROUP BY t2.topping_name
+ORDER BY topping_name;
+
+-- Changed from ORDER BY topping_count to topping_name--
+
+--Was only able to find 2 errors--
+```
+ **Result:** 
+ | topping\_name | topping\_count |
+| ------------- | -------------- |
+| Bacon         | 14             |
+| BBQ Sauce     | 11             |
+| Beef          | 10             |
+| Cheese        | 19             |
+| Chicken       | 11             |
+| Mushrooms     | 15             |
+| Onions        | 4              |
+| Pepperoni     | 10             |
+| Peppers       | 4              |
+| Salami        | 10             |
+| Tomatoes      | 4              |
+| Tomato Sauce  | 4              |
