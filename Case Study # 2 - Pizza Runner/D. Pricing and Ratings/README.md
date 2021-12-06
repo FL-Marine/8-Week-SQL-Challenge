@@ -268,6 +268,21 @@ WHERE table_name = 'runner_orders_table_cleaned';
 # Case Study Questions & Solutions
 
 **1. If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money has Pizza Runner made so far if there are no delivery fees?**
+```sql
+SELECT
+  SUM(
+    CASE
+      WHEN pizza_id = 1 THEN 12
+      ELSE 10
+    END
+  ) AS revenue
+FROM
+  customer_orders_table_cleaned;
+  ```
+**Result;**
+| revenue |
+| ------- |
+| 160     |
 
 **2. What if there was an additional $1 charge for any pizza extras?**
  - Add cheese is $1 extra
