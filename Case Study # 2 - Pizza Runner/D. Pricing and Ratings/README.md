@@ -279,13 +279,57 @@ SELECT
 FROM
   customer_orders_table_cleaned;
   ```
-**Result;**
+**Result:**
 | revenue |
 | ------- |
 | 160     |
 
 **2. What if there was an additional $1 charge for any pizza extras?**
  - Add cheese is $1 extra
+ ```sql
+ WITH cte_cleaned_customer_orders AS (
+  SELECT
+    order_id,
+    customer_id,
+    pizza_id,
+    CASE
+      WHEN exclusions IN ('', 'null') THEN NULL
+      ELSE exclusions
+    END AS exclusions,
+    CASE
+      WHEN extras IN ('', 'null') THEN NULL
+      ELSE extras
+    END AS extras,
+    order_time,
+    ROW_NUMBER() OVER () AS original_row_number
+  FROM pizza_runner.customer_orders
+  WHERE EXISTS (
+    SELECT 1 FROM pizza_runner.runner_orders
+    WHERE customer_orders.order_id = runner_orders.order_id
+      AND runner_orders.pickup_time  IS NOT NULL
+      -- Changed = 'null' to IS NOT NULL--
+  )
+)
+SELECT
+  SUM(
+    CASE
+      WHEN pizza_id = 1 THEN 12
+      WHEN pizza_id = 2 THEN 10
+      END -
+    -- we can use CARDINALITY to find the length of array of extras
+    COALESCE(
+      CARDINALITY(REGEXP_SPLIT_TO_ARRAY(extras, '[,\s]+')),
+      0
+    )
+  ) AS cost
+FROM cte_cleaned_customer_orders;
+
+# There are 2 errors but I only found 1.
+```
+**Result:**
+| cost |
+| ------- |
+| 154     |
 
 **3. The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset - generate a schema for this new table and insert your own data for ratings for each successful customer order between 1 to 5.**
 
