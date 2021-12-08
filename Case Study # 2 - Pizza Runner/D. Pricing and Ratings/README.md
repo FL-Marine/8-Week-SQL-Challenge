@@ -332,6 +332,35 @@ FROM cte_cleaned_customer_orders;
 | 154     |
 
 **3. The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset - generate a schema for this new table and insert your own data for ratings for each successful customer order between 1 to 5.**
+```sql
+SELECT SETSEED(1);
+
+DROP TABLE IF EXISTS pizza_runner.ratings;
+CREATE TABLE pizza_runner.ratings (
+  "order_id" INTEGER,
+  "rating" INTEGER
+);
+
+INSERT INTO pizza_runner.ratings
+SELECT
+  order_id,
+  FLOOR(1 + 5 * RANDOM()) AS rating
+FROM runner_orders_table_cleaned
+WHERE pickup_time IS NOT NULL;
+
+SELECT * FROM pizza_runner.ratings
+```
+**Result:**
+| order\_id | rating |
+| --------- | ------ |
+| 1         | 3      |
+| 2         | 4      |
+| 3         | 4      |
+| 4         | 3      |
+| 5         | 3      |
+| 7         | 2      |
+| 8         | 2      |
+| 10        | 3      |
 
 **4. Using your newly generated table - can you join all of the information together to form a table which has the following information for successful deliveries?**
 
