@@ -375,4 +375,27 @@ SELECT * FROM pizza_runner.ratings
 - Average speed
 - Total number of pizzas
 
+```sql
+WITH pizza_successful_deliveries AS (
+  SELECT order_id, customer_id, order_time, COUNT(pizza_id) AS pizza_count
+  FROM customer_orders_table_cleaned
+  GROUP BY order_id, customer_id, order_time
+  ORDER BY order_id
+)
+
+SELECT customer_id,
+  runner_orders_table_cleaned.order_id.
+  runner_orders_table_cleaned.runner_id,
+  ratings,
+  order_time,
+  pickup_time,
+  DATE_PART('min', AGE(pickup_time::TIMESTAMP, order_time))::INTEGER AS pickup_minutes,
+  ROUND(distance / duration *60, 2) AS avg_speed,
+  pizza_count
+FROM runner_orders_table_cleaned
+INNER JOIN pizza_successful_deliveries ON runner_orders_table_cleaned.order_id = pizza_successful_deliveries.order_id
+INNER JOIN runner_ratings ON runner_orders_table_cleaned.order_id = runner_ratings.order_id;
+```
+
+
 **5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?**
