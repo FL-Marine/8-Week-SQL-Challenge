@@ -389,15 +389,32 @@ SELECT customer_id,
   --ratings,--
   order_time,
   pickup_time,
+ -- pickup_time - order_time AS time_difference,--
   DATE_PART('min', AGE(pickup_time::TIMESTAMP, order_time))::INTEGER AS pickup_minutes,
+  duration,
   ROUND(distance / duration * 60, 2) AS average_speed,
   pizza_count
 FROM runner_orders_table_cleaned
 INNER JOIN pizza_successful_deliveries ON runner_orders_table_cleaned.order_id = pizza_successful_deliveries.order_id
 
-/* For some reason ratings column does not exist but when I run the query below it does?/*
-select * from pizza_runner.ratings
+
+/* For some reason ratings column does not exist but when I run the query below it does?
+  select * from pizza_runner.ratings
+  The time_difference looks strange for some reason { "minutes": 10, "seconds": 32 } can't seem to figure out why?/*
 ```
+**Result:**
+| customer\_id | order\_id | runner\_id | order\_time              | pickup\_time             | pickup\_minutes | duration | average\_speed | pizza\_count |
+| ------------ | --------- | ---------- | ------------------------ | ------------------------ | --------------- | -------- | -------------- | ------------ |
+| 101          | 1         | 1          | 2021-01-01T18:05:02.000Z | 2021-01-01T18:15:34.000Z | 10              | 32       | 37.50          | 1            |
+| 101          | 2         | 1          | 2021-01-01T19:00:52.000Z | 2021-01-01T19:10:54.000Z | 10              | 27       | 44.44          | 1            |
+| 102          | 3         | 1          | 2021-01-02T23:51:23.000Z | 2021-01-03T00:12:37.000Z | 21              | 20       | 40.20          | 2            |
+| 103          | 4         | 2          | 2021-01-04T13:23:46.000Z | 2021-01-04T13:53:03.000Z | 29              | 40       | 35.10          | 3            |
+| 104          | 5         | 3          | 2021-01-08T21:00:29.000Z | 2021-01-08T21:10:57.000Z | 10              | 15       | 40.00          | 1            |
+| 101          | 6         | 3          | 2021-01-08T21:03:13.000Z |                          |                 | 1        |
+| 105          | 7         | 2          | 2021-01-08T21:20:29.000Z | 2021-01-08T21:30:45.000Z | 10              | 25       | 60.00          | 1            |
+| 102          | 8         | 2          | 2021-01-09T23:54:33.000Z | 2021-01-10T00:15:02.000Z | 20              | 15       | 93.60          | 1            |
+| 103          | 9         | 2          | 2021-01-10T11:22:59.000Z |                          |                 | 1        |
+| 104          | 10        | 1          | 2021-01-11T18:34:49.000Z | 2021-01-11T18:50:20.000Z | 15              | 10       | 60.00          | 2            |
 
 
 
