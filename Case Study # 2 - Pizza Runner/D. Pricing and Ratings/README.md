@@ -417,6 +417,29 @@ INNER JOIN pizza_successful_deliveries ON runner_orders_table_cleaned.order_id =
 | 104          | 10        | 1          | 2021-01-11T18:34:49.000Z | 2021-01-11T18:50:20.000Z | 15              | 10       | 60.00          | 2            |
 
 
-
-
 **5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?**
+```sql
+SELECT
+  SUM(revenue) AS leftover_revenue
+FROM
+  (
+    SELECT
+      SUM(
+        CASE
+          WHEN pizza_id = 1 THEN 12
+          ELSE 10
+        END
+      ) AS revenue
+    FROM
+      customer_orders_table_cleaned
+    UNION
+    SELECT
+      SUM(-1 * distance * 0.3) AS revenue
+    FROM
+      runner_orders_table_cleaned
+  ) AS revenue_table
+  ```
+  **Result:**
+  | leftover\_revenue |
+| ----------------- |
+| 116.44            |
