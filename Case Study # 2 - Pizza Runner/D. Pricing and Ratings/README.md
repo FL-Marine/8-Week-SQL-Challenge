@@ -400,7 +400,16 @@ INNER JOIN pizza_successful_deliveries ON runner_orders_table_cleaned.order_id =
 
 /* For some reason ratings column does not exist but when I run the query below it does?
   select * from pizza_runner.ratings
-  The time_difference looks strange for some reason { "minutes": 10, "seconds": 32 } can't seem to figure out why?/*
+  The time_difference looks strange for some reason { "minutes": 10, "seconds": 32 } can't seem to figure out why?
+  
+  --From couzhei in Discord--
+  So you want to see the results only in minutes and minutes only, right? The reason I suggested ::minutes was that I saw it with my own eyes being used, now that I'm checking postgres' doc at https://www.postgresql.org/docs/8.4/functions-datetime.html, they say you should use EXTRACT(MINUTE FROM INTERVAL <your interval>), for example:
+SELECT EXTRACT(MINUTE FROM INTERVAL '38 minutes 3 seconds');
+--------------------------------------------------------
+Result: 38
+
+They also say that "the DATE_PART() function is modeled on the traditional Ingres equivalent to the SQL-standard function extract", so I guess that won't change your output much. In fact both of these function are practically the same, that's all I understood. I hope it helps. 
+  /*
 ```
 **Result:**
 | customer\_id | order\_id | runner\_id | order\_time              | pickup\_time             | pickup\_minutes | duration | average\_speed | pizza\_count |
