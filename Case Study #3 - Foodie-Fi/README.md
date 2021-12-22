@@ -5,3 +5,6 @@
 
 ## Entity Relationship Diagram
 ![image](https://user-images.githubusercontent.com/74512335/147102131-8fb5d455-658e-47d5-886d-b318b28324fb.png)
+
+## Schema Link
+https://www.db-fiddle.com/f/rHJhRrXy5hbVBNJ6F6b9gJ/16
