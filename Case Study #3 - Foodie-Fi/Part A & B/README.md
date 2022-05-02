@@ -27,7 +27,8 @@ If customers downgrade from a pro plan or cancel their subscription - the higher
 When customers upgrade their account from a basic plan to a pro or annual pro plan - the higher plan will take effect straightaway.
 
 When customers churn - they will keep their access until the end of their current billing period but the start_date will be technically the day they decided to cancel their service.
-![image](https://user-images.githubusercontent.com/74512335/166222305-f89eb62b-0d4b-4584-a7c4-4d6010ae3344.png)
+
+ ![image](https://user-images.githubusercontent.com/74512335/166222305-f89eb62b-0d4b-4584-a7c4-4d6010ae3344.png)
 
 </details>
 
