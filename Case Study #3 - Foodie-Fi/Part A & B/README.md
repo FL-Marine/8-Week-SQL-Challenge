@@ -41,6 +41,15 @@ Based off the 8 sample customers provided in the sample from the subscriptions t
 
 ## Part B. Data Analysis Questions
 **1. How many customers has Foodie-Fi ever had?**
+```sql
+SELECT
+  COUNT(DISTINCT customer_id) AS total_customers
+FROM foodie_fi.subscriptions;
+```
+**Result:**
+| total\_customers |
+| ---------------- |
+| 1000             |
 
 **2. What is the monthly distribution of trial plan start_date values for our dataset - use the start of the month as the group by value**
 
