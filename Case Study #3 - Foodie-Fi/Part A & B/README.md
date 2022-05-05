@@ -38,6 +38,48 @@ When customers churn - they will keep their access until the end of their curren
 Based off the 8 sample customers provided in the sample from the subscriptions table, write a brief description about each customer’s onboarding journey.
 
 "Try to keep it as short as possible - you may also want to run some sort of join to make your explanations a bit easier!"
+```sql
+SELECT
+  customer_id,
+  subscriptions.plan_id,
+  plan_name,
+  start_date
+FROM foodie_fi.subscriptions
+INNER JOIN foodie_fi.plans
+ON subscriptions.plan_id = plans.plan_id
+WHERE customer_id IN (1, 2, 13, 15, 16, 18, 19, 25, 39, 42);
+```
+**Result:**
+| customer\_id | plan\_id | plan\_name    | start\_date |
+| ------------ | -------- | ------------- | ----------- |
+| 1            | 0        | trial         | 2020-08-01  |
+| 1            | 1        | basic monthly | 2020-08-08  |
+| 2            | 0        | trial         | 2020-09-20  |
+| 2            | 3        | pro annual    | 2020-09-27  |
+| 13           | 0        | trial         | 2020-12-15  |
+| 13           | 1        | basic monthly | 2020-12-22  |
+| 13           | 2        | pro monthly   | 2021-03-29  |
+| 15           | 0        | trial         | 2020-03-17  |
+| 15           | 2        | pro monthly   | 2020-03-24  |
+| 15           | 4        | churn         | 2020-04-29  |
+| 16           | 0        | trial         | 2020-05-31  |
+| 16           | 1        | basic monthly | 2020-06-07  |
+| 16           | 3        | pro annual    | 2020-10-21  |
+| 18           | 0        | trial         | 2020-07-06  |
+| 18           | 2        | pro monthly   | 2020-07-13  |
+| 19           | 0        | trial         | 2020-06-22  |
+| 19           | 2        | pro monthly   | 2020-06-29  |
+| 19           | 3        | pro annual    | 2020-08-29  |
+| 25           | 0        | trial         | 2020-05-10  |
+| 25           | 1        | basic monthly | 2020-05-17  |
+| 25           | 2        | pro monthly   | 2020-06-16  |
+| 39           | 0        | trial         | 2020-05-28  |
+| 39           | 1        | basic monthly | 2020-06-04  |
+| 39           | 2        | pro monthly   | 2020-08-25  |
+| 39           | 4        | churn         | 2020-09-10  |
+| 42           | 0        | trial         | 2020-10-27  |
+| 42           | 1        | basic monthly | 2020-11-03  |
+| 42           | 2        | pro monthly   | 2021-04-28  |
 
 ## Part B. Data Analysis Questions
 **1. How many customers has Foodie-Fi ever had?**
