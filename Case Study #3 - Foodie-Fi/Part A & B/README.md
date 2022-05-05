@@ -129,7 +129,7 @@ FROM foodie_fi.subscriptions
 INNER JOIN foodie_fi.plans
   ON subscriptions.plan_id = plans.plan_id
 WHERE start_date > '2020-01-01'::DATE
-GROUP BY plans.plan_id,  plan_name
+GROUP BY plans.plan_id, plan_name
 ORDER BY plans.plan_id;
 ```
 **Result:**
