@@ -120,6 +120,26 @@ ORDER BY month_start;
 | 2020-12-01   | 84               |
 
 **3. What plan start_date values occur after the year 2020 for our dataset? Show the breakdown by count of events for each plan_name**
+```sql
+SELECT 
+  plans.plan_id,
+  plan_name,
+  COUNT(*) AS count
+FROM foodie_fi.subscriptions
+INNER JOIN foodie_fi.plans
+  ON subscriptions.plan_id = plans.plan_id
+WHERE start_date > '2020-01-01'::DATE
+GROUP BY plans.plan_id,  plan_name
+ORDER BY plans.plan_id;
+```
+**Result:**
+| plan\_id | plan\_name    | count |
+| -------- | ------------- | ----- |
+| 0        | trial         | 997   |
+| 1        | basic monthly | 546   |
+| 2        | pro monthly   | 539   |
+| 3        | pro annual    | 258   |
+| 4        | churn         | 307   |
 
 **4. What is the customer count and percentage of customers who have churned rounded to 1 decimal place?**
 
