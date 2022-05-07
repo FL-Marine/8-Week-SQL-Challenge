@@ -34,7 +34,8 @@ When customers churn - they will keep their access until the end of their curren
 
 # Case Study Questions & Solutions
 
- ## Part A. Customer Journey 
+ <details>
+<summary>Part A. Customer Journey</summary>
 Based off the 8 sample customers provided in the sample from the subscriptions table, write a brief description about each customer’s onboarding journey.
 
 "Try to keep it as short as possible - you may also want to run some sort of join to make your explanations a bit easier!"
@@ -80,6 +81,8 @@ WHERE customer_id IN (1, 2, 13, 15, 16, 18, 19, 25, 39, 42);
 | 42           | 0        | trial         | 2020-10-27  |
 | 42           | 1        | basic monthly | 2020-11-03  |
 | 42           | 2        | pro monthly   | 2021-04-28  |
+ </details>
+
 
 ## Part B. Data Analysis Questions
 **1. How many customers has Foodie-Fi ever had?**
