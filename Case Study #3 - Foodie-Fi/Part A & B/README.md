@@ -34,8 +34,9 @@ When customers churn - they will keep their access until the end of their curren
 
 # Case Study Questions & Solutions
 
+## Part A
  <details>
-<summary>Part A. Customer Journey</summary>
+<summary>Customer Journey</summary>
 Based off the 8 sample customers provided in the sample from the subscriptions table, write a brief description about each customer’s onboarding journey.
 
 "Try to keep it as short as possible - you may also want to run some sort of join to make your explanations a bit easier!"
