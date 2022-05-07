@@ -145,6 +145,20 @@ ORDER BY plans.plan_id;
 | 4        | churn         | 307   |
 
 **4. What is the customer count and percentage of customers who have churned rounded to 1 decimal place?**
+```sql
+SELECT
+  SUM(CASE WHEN plan_id = 4 THEN 1 ELSE 0 END) AS churn_customers,
+  ROUND(
+    100 * SUM(CASE WHEN plan_id = 4 THEN 1 ELSE 0 END):: NUMERIC /
+      COUNT(DISTINCT customer_id), 1
+  ) AS percentage
+FROM foodie_fi.subscriptions;
+```
+**Result:**
+| churn\_customers | percentage |
+| ---------------- | ---------- |
+| 307              | 30.7       |
+
 
 **5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?**
 
