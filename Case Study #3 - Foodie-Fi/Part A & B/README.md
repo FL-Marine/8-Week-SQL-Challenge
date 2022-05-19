@@ -162,6 +162,32 @@ FROM foodie_fi.subscriptions;
 
 
 **5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?**
+```sql
+WITH ranked_plans AS (
+  SELECT
+    subscriptions.customer_id,
+    subscriptions.plan_id,
+    plans.plan_name,
+    ROW_NUMBER() OVER (
+      PARTITION BY subscriptions.customer_id
+      ORDER BY subscriptions.plan_id) AS plan_rank
+  FROM foodie_fi.subscriptions
+  INNER JOIN foodie_fi.plans 
+    ON subscriptions.plan_id = plans.plan_id)
+
+SELECT
+ COUNT(*) as churn_count,
+ ROUND(100 * COUNT(*) / (
+  SELECT COUNT(DISTINCT customer_id)
+  FROM foodie_fi.subscriptions),0) AS churn_percentage
+FROM ranked_plans
+WHERE plan_id = 4
+  AND plan_rank = 2;
+  ```
+  **Result:**
+  | churn\_count | churn\_percentage |
+| ------------ | ----------------- |
+| 92           | 9                 |
 
 **6. What is the number and percentage of customer plans after their initial free trial?**
 
