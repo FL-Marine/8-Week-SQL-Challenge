@@ -190,6 +190,30 @@ WHERE plan_id = 4
 | 92           | 9                 |
 
 **6. What is the number and percentage of customer plans after their initial free trial?**
+```sql
+-- Need to debug this--
+WITH ranked_plans AS (
+  SELECT
+    customer_id,
+    plan_id,
+    ROW_NUMBER() OVER (
+      PARTITION BY customer_id
+      ORDER BY start_date DESC
+    ) AS plan_rank
+  FROM foodie_fi.subscriptions
+)
+SELECT
+  plans.plan_id,
+  plans.plan_name,
+  COUNT(*) AS customer_count,
+  ROUND(100 * COUNT(*) / SUM(COUNT(*)) OVER ()) AS percentage
+FROM ranked_plans
+INNER JOIN foodie_fi.plans
+  ON ranked_plans.plan_id = plans.plan_id
+WHERE plan_rank = 1
+GROUP BY plans.plan_id, plans.plan_name
+ORDER BY plans.plan_id;
+```
 
 **7. What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?** 
 
