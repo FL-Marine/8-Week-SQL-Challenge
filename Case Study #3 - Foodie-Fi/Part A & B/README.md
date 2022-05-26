@@ -218,6 +218,17 @@ ORDER BY plans.plan_id;
 **7. What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?** 
 
 **8. How many customers have upgraded to an annual plan in 2020?**
+```sql
+SELECT
+  COUNT(DISTINCT customer_id) AS annual_customers
+FROM foodie_fi.subscriptions
+WHERE plan_id = 3
+  AND start_date BETWEEN '2020-01-01' AND '2020-12-31';
+  ```
+**Result:**
+| annual\_customers |
+| ----------------- |
+| 195               |
 
 **9. How many days on average does it take for a customer to an annual plan from the day they join Foodie-Fi?**
 
