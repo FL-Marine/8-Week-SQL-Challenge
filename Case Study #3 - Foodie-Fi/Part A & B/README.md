@@ -213,6 +213,37 @@ INNER JOIN foodie_fi.plans
 WHERE plan_rank = 1
 GROUP BY plans.plan_id, plans.plan_name
 ORDER BY plans.plan_id;
+
+-- Debugged code --
+WITH ranked_plans AS (
+  SELECT
+    customer_id,
+    plan_id,
+    ROW_NUMBER() OVER (
+      PARTITION BY customer_id
+      ORDER BY plan_id ASC -- plan_id ASC replaced start_date DESC --
+    ) AS plan_rank
+  FROM foodie_fi.subscriptions
+)
+SELECT
+  plans.plan_id,
+  plans.plan_name,
+  COUNT(*) AS customer_count,
+  ROUND(100 * COUNT(*) / SUM(COUNT(*)) OVER ()) AS percentage
+FROM ranked_plans
+INNER JOIN foodie_fi.plans
+  ON ranked_plans.plan_id = plans.plan_id
+WHERE plan_rank = 2 -- plan_rank = 1 was replaced with plan_rank = 2 --
+GROUP BY plans.plan_id, plans.plan_name
+ORDER BY plans.plan_id;
+
+**Result:**
+| plan\_id | plan\_name    | customer\_count | percentage |
+| -------- | ------------- | --------------- | ---------- |
+| 1        | basic monthly | 546             | 55         |
+| 2        | pro monthly   | 325             | 33         |
+| 3        | pro annual    | 37              | 4          |
+| 4        | churn         | 92              | 9          |
 ```
 
 **7. What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?** 
