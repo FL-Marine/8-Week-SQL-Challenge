@@ -247,6 +247,38 @@ ORDER BY plans.plan_id;
 
 
 **7. What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?** 
+```
+WITH valid_subscriptions AS (
+  SELECT
+    customer_id,
+    plan_id,
+    start_date,
+    ROW_NUMBER() OVER (
+      PARTITION BY customer_id
+      ORDER BY start_date DESC
+    ) AS plan_rank
+  FROM foodie_fi.subscriptions
+  WHERE start_date <= '2020-12-31'
+)
+SELECT
+  plan_id,
+  COUNT(DISTINCT customer_id) AS customers,
+  ROUND(100 * COUNT(*) / SUM(COUNT(*)) OVER(), 1) AS percentage
+FROM 
+  valid_subscriptions
+WHERE
+  plan_rank = 1
+GROUP BY
+  plan_id;
+  ```
+  **Result:**
+  | plan\_id | customers | percentage |
+| -------- | --------- | ---------- |
+| 0        | 19        | 1.9        |
+| 1        | 224       | 22.4       |
+| 2        | 326       | 32.6       |
+| 3        | 195       | 19.5       |
+| 4        | 236       | 23.6       |
 
 **8. How many customers have upgraded to an annual plan in 2020?**
 ```sql
