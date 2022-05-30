@@ -247,7 +247,7 @@ ORDER BY plans.plan_id;
 
 
 **7. What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?** 
-```
+``` sql
 WITH valid_subscriptions AS (
   SELECT
     customer_id,
