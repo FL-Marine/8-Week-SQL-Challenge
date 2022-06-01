@@ -342,7 +342,7 @@ SELECT
 FROM ranked_plans
 WHERE lag_plan_id = 1 AND plan_id = 2;
 
--- Deugged code --
+-- Debugged code --
 WITH ranked_plans AS (
 SELECT
   customer_id,
