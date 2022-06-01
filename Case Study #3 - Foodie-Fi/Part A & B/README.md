@@ -323,3 +323,44 @@ INNER JOIN trial
 **10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)**
 
 **11. How many customers downgraded from a pro monthly to a basic monthly plan in 2020?**
+```sql
+-- Code to be debugged --
+WITH ranked_plans AS (
+SELECT
+  customer_id,
+  plan_id,
+  start_date,
+  LAG(plan_id) OVER (
+      PARTITION BY start_date
+      ORDER BY start_date DESC
+  ) AS lag_plan_id
+FROM foodie_fi.subscriptions
+WHERE DATE_PART('year', start_date) = 2020
+)
+SELECT
+  COUNT(*)
+FROM ranked_plans
+WHERE lag_plan_id = 1 AND plan_id = 2;
+
+-- Deugged code --
+WITH ranked_plans AS (
+SELECT
+  customer_id,
+  plan_id,
+  start_date,
+  LAG(plan_id) OVER (
+      PARTITION BY customer_id -- changed from  PARTITION BY start_date to  PARTITION BY customer_id
+      ORDER BY start_date ASC -- changed from DESC to ASC
+  ) AS lag_plan_id
+FROM foodie_fi.subscriptions
+WHERE DATE_PART('year', start_date) = 2020
+)
+SELECT
+  COUNT(*) AS customer_count
+FROM ranked_plans
+WHERE lag_plan_id = 1 AND plan_id = 2;
+```
+**Result:**
+  | customer_count |
+| --- |
+| 163 |
