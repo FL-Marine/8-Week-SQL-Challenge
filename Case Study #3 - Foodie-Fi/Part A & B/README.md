@@ -321,6 +321,46 @@ INNER JOIN trial
 | 105 |
 
 **10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)**
+```sql
+WITH join_date AS (
+  SELECT
+    customer_id, start_date AS trial_date
+  FROM foodie_fi.subscriptions
+  WHERE plan_id = 0
+),
+pro_plan_date AS (
+  SELECT
+    customer_id, start_date AS upgrade_date
+  FROM foodie_fi.subscriptions
+  WHERE plan_id = 3
+),
+day_bins AS (
+  SELECT WIDTH_BUCKET(upgrade_date - trial_date, 0, 360,12) AS avg_days_to_upgrade
+  --WIDTH BUCKET(expression, min, max, buckets)--
+  FROM join_date INNER JOIN pro_plan_date
+    ON join_date.customer_id = pro_plan_date.customer_id
+)
+SELECT ((avg_days_to_upgrade - 1)*30 || '-' || (avg_days_to_upgrade)*30) AS "30-day-range", COUNT(*)
+FROM day_bins
+GROUP BY avg_days_to_upgrade
+ORDER BY avg_days_to_upgrade;
+```
+ **Result:**
+ | 30-day-range | count |
+| ------------ | ----- |
+| 0-30         | 48    |
+| 30-60        | 25    |
+| 60-90        | 33    |
+| 90-120       | 35    |
+| 120-150      | 43    |
+| 150-180      | 35    |
+| 180-210      | 27    |
+| 210-240      | 4     |
+| 240-270      | 5     |
+| 270-300      | 1     |
+| 300-330      | 1     |
+| 330-360      | 1     |
+
 
 **11. How many customers downgraded from a pro monthly to a basic monthly plan in 2020?**
 ```sql
