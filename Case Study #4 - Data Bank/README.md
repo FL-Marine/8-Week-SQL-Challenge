@@ -29,6 +29,9 @@ This case study is all about calculating metrics, growth and helping the busines
 
 ![image](https://user-images.githubusercontent.com/74512335/178159574-718f5c8a-8877-4f1d-a563-b814005b59c8.png)
 
+## Schema Link
+https://www.db-fiddle.com/f/2GtQz4wZtuNNu7zXH5HtV4/3
+
 # Case Study Questions and Solutions 
 
 ## Part A. Customer Nodes Exploration
