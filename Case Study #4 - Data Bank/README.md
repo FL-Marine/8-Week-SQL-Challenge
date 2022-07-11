@@ -74,6 +74,35 @@ GROUP BY region_name;
 | Europe       | 5            |
 
 3. How many customers are allocated to each region?
+```sql
+--Original Code--
+SELECT
+  node_id,--remove node_id, replace with region_name--
+  COUNT(customer_nodes.customer_id) AS nodes -- Add DISTINCT inside customer_id COUNT()
+FROM data_bank.customer_nodes
+INNER JOIN data_bank.regions
+  ON customer_nodes.region_id = regions.region_id
+GROUP BY region_name
+ORDER BY region_name;
+
+--Debugged Code--
+SELECT
+  region_name,
+  COUNT(DISTINCT customer_nodes.customer_id) AS nodes
+FROM data_bank.customer_nodes
+INNER JOIN data_bank.regions
+  ON customer_nodes.region_id = regions.region_id
+GROUP BY region_name
+ORDER BY region_name;
+```
+**Result**
+| region\_name | nodes |
+| ------------ | ----- |
+| Africa       | 102   |
+| America      | 105   |
+| Asia         | 95    |
+| Australia    | 110   |
+| Europe       | 88    |
 
 4. How many days on average are customers reallocated to a different node?
 
