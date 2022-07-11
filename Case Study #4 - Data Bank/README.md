@@ -55,6 +55,23 @@ FROM unique_nodes;
 | 25                      |
 
 2. What is the number of nodes per region?
+```sql
+SELECT
+  regions.region_name,
+  COUNT(DISTINCT customer_nodes.node_id) AS nodes
+FROM data_bank.customer_nodes
+INNER JOIN data_bank.regions
+  ON  regions.region_id = customer_nodes.node_id
+GROUP BY region_name;
+```
+**Result**
+| region\_name | node\_counts |
+| ------------ | ------------ |
+| Africa       | 5            |
+| America      | 5            |
+| Asia         | 5            |
+| Australia    | 5            |
+| Europe       | 5            |
 
 3. How many customers are allocated to each region?
 
