@@ -37,6 +37,22 @@ https://www.db-fiddle.com/f/2GtQz4wZtuNNu7zXH5HtV4/3
 ## Part A. Customer Nodes Exploration
 
 1. How many unique nodes are there on the Data Bank system?
+```sql
+WITH unique_nodes AS (
+SELECT 
+  region_id,
+  COUNT(DISTINCT node_id) AS unique_node_count
+FROM data_bank.customer_nodes
+GROUP BY region_id
+)
+SELECT 
+  SUM(unique_node_count) AS DB_unique_node_count
+FROM unique_nodes;
+```
+**Result**
+| db\_unique\_node\_count |
+| ----------------------- |
+| 25                      |
 
 2. What is the number of nodes per region?
 
