@@ -111,6 +111,20 @@ ORDER BY region_name;
 ## B. Customer Transactions
 
 1. What is the unique count and total amount for each transaction type?
+```sql
+SELECT
+  txn_type,
+  COUNT(*) AS txn_count,
+  SUM(txn_amount) AS total_amount
+FROM data_bank.customer_transactions
+GROUP BY txn_type;
+```
+**Result**
+| txn\_type  | txn\_count | total\_amount |
+| ---------- | ---------- | ------------- |
+| purchase   | 1617       | 806537        |
+| withdrawal | 1580       | 793003        |
+| deposit    | 2671       | 1359168       |
 
 2. What is the average total historical deposit counts and amounts for all customers?
 
