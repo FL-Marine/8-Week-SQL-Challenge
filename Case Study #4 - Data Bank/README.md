@@ -127,6 +127,30 @@ GROUP BY txn_type;
 | deposit    | 2671       | 1359168       |
 
 2. What is the average total historical deposit counts and amounts for all customers?
+```sql
+WITH cte_customer AS (
+SELECT
+  customer_id,
+  COUNT(*) AS avg_customer_count,
+  AVG(txn_amount) AS avg_customer_deposit
+FROM 
+  data_bank.customer_transactions
+WHERE
+  txn_type = 'deposit'
+GROUP BY customer_id
+)
+SELECT
+  ROUND(AVG(avg_customer_count)) AS avg_count,
+  ROUND(AVG(avg_customer_deposit)) AS avg_deposit_amount
+FROM 
+  cte_customer;
+  
+  --Taking average of customer then calculating the final average from that--
+  ```
+  **Result** 
+| avg\_count | avg\_deposit\_amount |
+| ---------- | -------------------- |
+| 5          | 509                  |
 
 3. For each month - how many Data Bank customers make more than 1 deposit and either 1 purchase or 1 withdrawal in a single month?
 
