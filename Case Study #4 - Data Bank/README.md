@@ -153,6 +153,60 @@ FROM
 | 5          | 509                  |
 
 3. For each month - how many Data Bank customers make more than 1 deposit and either 1 purchase or 1 withdrawal in a single month?
+```sql
+--Original Code--
+WITH cte_customer_months AS (
+  SELECT
+    DATE_TRUNC('mon', txn_date)::DATE AS month,
+    customer_id,
+    SUM(CASE WHEN txn_type = 'deposit' THEN 0 ELSE 1 END) AS deposit_count,
+    SUM(CASE WHEN txn_type = 'purchase' THEN 0 ELSE 1 END) AS purchase_count,
+    SUM(CASE WHEN txn_type = 'withdrawal' THEN 1 ELSE 0 END) AS withdrawal_count
+  FROM data_bank.customer_transactions
+  GROUP BY month, customer_id
+)
+SELECT
+  month,
+  COUNT(DISTINCT customer_id) AS customer_count
+FROM cte_customer_months
+WHERE deposit_count >= 1 AND (
+  purchase_count > 1 OR withdrawal_count > 1
+)
+GROUP BY month
+ORDER BY month;
+
+--Debugged Code--
+WITH cte_customer_months AS (
+  SELECT
+    DATE_TRUNC('month', txn_date)::DATE AS month,
+    customer_id,
+    SUM(CASE WHEN txn_type = 'deposit' THEN 1 ELSE 0 END) AS deposit_count,
+    SUM(CASE WHEN txn_type = 'purchase' THEN 1 ELSE 0 END) AS purchase_count,
+    SUM(CASE WHEN txn_type = 'withdrawal' THEN 1 ELSE 0 END) AS withdrawal_count
+  FROM data_bank.customer_transactions
+  GROUP BY month, customer_id
+)
+SELECT
+  month,
+  COUNT(DISTINCT customer_id) AS customer_count
+FROM cte_customer_months
+WHERE deposit_count > 1 AND (
+  purchase_count >= 1 OR withdrawal_count >= 1
+)
+GROUP BY month
+ORDER BY month;
+
+--Changed all the THEN 0 to THEN 1--
+--Changed deposit_count from >=1 to > 1
+--Changed operators to >= for purchase_count, withdrawal_count
+```
+**Result**
+| month      | customer\_count |
+| ---------- | --------------- |
+| 2020-01-01 | 168             |
+| 2020-02-01 | 181             |
+| 2020-03-01 | 192             |
+| 2020-04-01 | 70              |
 
 4. What is the closing balance for each customer at the end of the month?
 
