@@ -81,6 +81,55 @@ In a single query, perform the following operations and generate a new table in 
 
 - Generate a new avg_transaction column as the sales value divided by transactions rounded to 2 decimal places for each record
 
+```sql
+DROP TABLE IF EXISTS data_mart.clean_weekly_sales;
+CREATE TABLE data_mart.clean_weekly_sales AS
+SELECT
+  TO_DATE(week_date, 'DD/MM/YY') AS week_date, --changed from 'MM/DD/YY'--
+  DATE_PART('week', TO_DATE(week_date, 'DD/MM/YY')) AS week_number,
+  DATE_PART('month', TO_DATE(week_date, 'DD/MM/YY')) AS month_number,
+  DATE_PART('year', TO_DATE(week_date, 'DD/MM/YY')) AS calendar_year,
+  region,
+  platform,
+  CASE
+    WHEN segment = 'null' THEN 'Unknown'
+    ELSE segment
+    END AS segment,
+  CASE
+    WHEN RIGHT(segment, 1) = '1' THEN 'Young Adults' --Changed from WHEN LEFT--
+    WHEN RIGHT(segment, 1) = '2' THEN 'Middle Aged'--Changed from WHEN LEFT--
+    WHEN RIGHT(segment, 1) IN ('3', '4') THEN 'Retirees' --Changed from WHEN LEFT--
+    ELSE 'Unknown'
+    END AS age_band,
+  CASE
+    WHEN LEFT(segment, 1) = 'C' THEN 'Couples' --Changed from WHEN RIGHT--
+    WHEN LEFT(segment, 1) = 'F' THEN 'Families'--Changed from WHEN RIGHT--
+    ELSE 'Unknown'
+    END AS demographic,
+  customer_type,
+  transactions,
+  sales,
+  ROUND(
+      sales ::NUMERIC / transactions, --Casted sales as NUMERIC--
+      2
+   ) AS avg_transaction
+FROM data_mart.weekly_sales;
+SELECT *
+FROM data_mart.clean_weekly_sales; --Added this SELECT statement--
+```
+**Result**
+| week\_date | week\_number | month\_number | calendar\_year | region | platform | segment | age\_band    | demographic | customer\_type | transactions | sales    | avg\_transaction |
+| ---------- | ------------ | ------------- | -------------- | ------ | -------- | ------- | ------------ | ----------- | -------------- | ------------ | -------- | ---------------- |
+| 2020-08-31 | 36           | 8             | 2020           | ASIA   | Retail   | C3      | Retirees     | Couples     | New            | 120631       | 3656163  | 30.31            |
+| 2020-08-31 | 36           | 8             | 2020           | ASIA   | Retail   | F1      | Young Adults | Families    | New            | 31574        | 996575   | 31.56            |
+| 2020-08-31 | 36           | 8             | 2020           | USA    | Retail   | Unknown | Unknown      | Unknown     | Guest          | 529151       | 16509610 | 31.20            |
+| 2020-08-31 | 36           | 8             | 2020           | EUROPE | Retail   | C1      | Young Adults | Couples     | New            | 4517         | 141942   | 31.42            |
+| 2020-08-31 | 36           | 8             | 2020           | AFRICA | Retail   | C2      | Middle Aged  | Couples     | New            | 58046        | 1758388  | 30.29            |
+| 2020-08-31 | 36           | 8             | 2020           | CANADA | Shopify  | F2      | Middle Aged  | Families    | Existing       | 1336         | 243878   | 182.54           |
+| 2020-08-31 | 36           | 8             | 2020           | AFRICA | Shopify  | F3      | Retirees     | Families    | Existing       | 2514         | 519502   | 206.64           |
+| 2020-08-31 | 36           | 8             | 2020           | ASIA   | Shopify  | F1      | Young Adults | Families    | Existing       | 2158         | 371417   | 172.11           |
+| 2020-08-31 | 36           | 8             | 2020           | AFRICA | Shopify  | F2      | Middle Aged  | Families    | New            | 318          | 49557    | 155.84           |
+
 ## 2. Data Exploration
 
 1. What day of the week is used for each week_date value?
