@@ -118,7 +118,7 @@ SELECT *
 FROM data_mart.clean_weekly_sales; --Added this SELECT statement--
 LIMIT 10; --Limtied to show only 10 results as the final output is > 17k rows
 ```
-**Result**
+**Result:**
 | week\_date | week\_number | month\_number | calendar\_year | region | platform | segment | age\_band    | demographic | customer\_type | transactions | sales    | avg\_transaction |
 | ---------- | ------------ | ------------- | -------------- | ------ | -------- | ------- | ------------ | ----------- | -------------- | ------------ | -------- | ---------------- |
 | 2020-08-31 | 36           | 8             | 2020           | ASIA   | Retail   | C3      | Retirees     | Couples     | New            | 120631       | 3656163  | 30.31            |
@@ -134,6 +134,16 @@ LIMIT 10; --Limtied to show only 10 results as the final output is > 17k rows
 ## 2. Data Exploration
 
 1. What day of the week is used for each week_date value?
+```sql
+SELECT 
+  DISTINCT TO_CHAR(week_date, 'day') AS weekday
+FROM 
+  data_mart.clean_weekly_sales;
+  ```
+  **Result:**
+  | weekday |
+| ------- |
+| monday  |
 
 2. What range of week numbers are missing from the dataset?
 
