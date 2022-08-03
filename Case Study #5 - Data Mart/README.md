@@ -116,6 +116,7 @@ SELECT
 FROM data_mart.weekly_sales;
 SELECT *
 FROM data_mart.clean_weekly_sales; --Added this SELECT statement--
+LIMIT 10; --Limtied to show only 10 results as the final output is > 17k rows
 ```
 **Result**
 | week\_date | week\_number | month\_number | calendar\_year | region | platform | segment | age\_band    | demographic | customer\_type | transactions | sales    | avg\_transaction |
