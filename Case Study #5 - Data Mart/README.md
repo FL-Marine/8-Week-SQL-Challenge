@@ -146,6 +146,33 @@ FROM
 | monday  |
 
 2. What range of week numbers are missing from the dataset?
+```sql
+WITH all_week_numbers AS (
+  SELECT GENERATE_SERIES(1, 52) AS week_number --Changeg to 52 from 26--
+)
+SELECT
+  week_number
+FROM all_week_numbers AS t1
+WHERE EXISTS (
+  SELECT 1
+  FROM data_mart.clean_weekly_sales AS t2
+  WHERE t1.week_number != t2.week_number --Added not equal to operator--
+);
+-- Only put 10 results to save scrolling time--
+```
+**Result:**
+| week\_number |
+| ------------ |
+| 1            |
+| 2            |
+| 3            |
+| 4            |
+| 5            |
+| 6            |
+| 7            |
+| 8            |
+| 9            |
+| 10           |
 
 3. How many total transactions were there for each year in the dataset?
 
